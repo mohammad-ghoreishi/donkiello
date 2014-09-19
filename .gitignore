@@ -1,12 +1,35 @@
+# NetBeans specific #
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# config files #
+#/osict-mtnm/build.bat
+#/osict-mtnm/config-backup.bat
+#/osict-mtnm/config-restore.bat
+#/osict-mtnm/deploy.bat
+#/osict-mtnm/mtnm-nms/src/main/resources/META-INF/applicationContext-nms.xml
+#/osict-mtnm/mtnm-ems-osict/src/main/resources/META-INF/applicationContext-ems.xml
+#/osict-mtnm/mtnm-ems-cisco/src/main/resources/META-INF/applicationContext-ems.xml
+
+.classpath
+.project
+.settings/
 *.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+*.iml
+*.ipr
+*.iws
+*.ids
+*.log
+.idea
+MANIFEST.MF
+.metadata
+target/
+pom.xml
+rebel.xml
+*~
