@@ -10,7 +10,7 @@ import com.donkiello.model.dao.base.AbstractDao;
 import com.donkiello.model.dao.common.inter.IDonCustomerDao;
 import com.donkiello.model.entity.common.DonCustomer;
 import com.donkiello.model.exeption.BusinessException;
-import com.donkiello.model.service.common.inter.IDonCustomerService;
+import com.donkiello.model.service.common.IDonCustomerService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -24,30 +24,30 @@ import javax.persistence.EntityTransaction;
 public class DonCustomerService implements IDonCustomerService{
     
     @EJB
-    private IDonCustomerDao customerDao;
+    private IDonCustomerDao donCustomerDao;
 
     public EntityTransaction getTransaction() {
-        return ((AbstractDao)customerDao).getEntityManager().getTransaction();
+        return ((AbstractDao)donCustomerDao).getEntityManager().getTransaction();
     }
 
     public void create(DonCustomer t) throws BusinessException {
-        customerDao.create(t);
+        donCustomerDao.create(t);
     }
 
     public DonCustomer searchById(Object id) throws BusinessException {
-        return customerDao.searchById(id);
+        return donCustomerDao.searchById(id);
     }
 
     public void update(DonCustomer t) throws BusinessException {
-        customerDao.update(t);
+        donCustomerDao.update(t);
     }
 
     public void remove(DonCustomer t) throws BusinessException {
-        customerDao.remove(t);
+        donCustomerDao.remove(t);
     }
 
     public List<DonCustomer> getAll() throws BusinessException {
-        return customerDao.getAll();
+        return donCustomerDao.getAll();
     }
     
 }

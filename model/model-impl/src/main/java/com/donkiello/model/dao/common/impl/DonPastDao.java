@@ -37,11 +37,12 @@ public class DonPastDao extends AbstractDao implements IDonPastDao{
     }
 
     public void remove(DonPast t) {
+        t.setDeleted(Short.valueOf("1"));
         getEntityManager().merge(t);
     }
 
     public List<DonPast> getAll() {
-        Query query = getEntityManager().createQuery("SELECT c FROM DonPast ");
+        Query query = getEntityManager().createQuery("SELECT c FROM DonPast c WHERE c.deleted = 0 ");
         List<DonPast> bussinesses = query.getResultList();
         return bussinesses;
     }

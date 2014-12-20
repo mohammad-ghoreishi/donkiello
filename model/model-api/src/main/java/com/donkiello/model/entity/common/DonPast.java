@@ -7,11 +7,12 @@
 package com.donkiello.model.entity.common;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +21,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,89 +32,95 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "don_past")
 @XmlRootElement
 //@NamedQueries({
-//    @NamedQuery(name = "DonPast.findAll", query = "SELECT d FROM DonPast d")})
+//    @NamedQuery(name = "DonPast.findAll", query = "SELECT d FROM DonPast d"),
+//    @NamedQuery(name = "DonPast.findByDon365id", query = "SELECT d FROM DonPast d WHERE d.don365id = :don365id"),
+//    @NamedQuery(name = "DonPast.findByDon365degree", query = "SELECT d FROM DonPast d WHERE d.don365degree = :don365degree"),
+//    @NamedQuery(name = "DonPast.findByDon365eduField", query = "SELECT d FROM DonPast d WHERE d.don365eduField = :don365eduField"),
+//    @NamedQuery(name = "DonPast.findByDon365uniName", query = "SELECT d FROM DonPast d WHERE d.don365uniName = :don365uniName"),
+//    @NamedQuery(name = "DonPast.findByDon365uniCity", query = "SELECT d FROM DonPast d WHERE d.don365uniCity = :don365uniCity"),
+//    @NamedQuery(name = "DonPast.findByDon365gradiationDate", query = "SELECT d FROM DonPast d WHERE d.don365gradiationDate = :don365gradiationDate"),
+//    @NamedQuery(name = "DonPast.findByDon365deleted", query = "SELECT d FROM DonPast d WHERE d.don365deleted = :don365deleted")})
 public class DonPast implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "don365id")
-    private BigDecimal id;
+    @Column(name = "DON365ID")
+    private Integer don365id;
     @Size(max = 1000)
-    @Column(name = "don365degree")
-    private String degree;
+    @Column(name = "DON365DEGREE")
+    private String don365degree;
     @Size(max = 1000)
-    @Column(name = "don365edu_field")
-    private String eduField;
+    @Column(name = "DON365EDU_FIELD")
+    private String don365eduField;
     @Size(max = 1000)
-    @Column(name = "don365uni_name")
-    private String uniName;
+    @Column(name = "DON365UNI_NAME")
+    private String don365uniName;
     @Size(max = 1000)
-    @Column(name = "don365uni_city")
-    private String uniCity;
-    @Column(name = "don365gradiation_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date graduationDate;
-    @Column(name = "don365deleted")
+    @Column(name = "DON365UNI_CITY")
+    private String don365uniCity;
+    @Column(name = "DON365GRADIATION_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date don365gradiationDate;
+    @Column(name = "DON365DELETED")
     private Short deleted;
-    @JoinColumn(name = "don363id", referencedColumnName = "don363id")
-    @ManyToOne
-    private DonEducationalInfo don363id;
+    @JoinColumn(name = "DON360ID", referencedColumnName = "DON360ID")
+    @ManyToOne(optional = false)
+    private DonCustomer don360id;
 
     public DonPast() {
     }
 
-    public DonPast(BigDecimal don365id) {
-        this.id = don365id;
+    public DonPast(Integer don365id) {
+        this.don365id = don365id;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public Integer getDon365id() {
+        return don365id;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setDon365id(Integer don365id) {
+        this.don365id = don365id;
     }
 
-    public String getDegree() {
-        return degree;
+    public String getDon365degree() {
+        return don365degree;
     }
 
-    public void setDegree(String degree) {
-        this.degree = degree;
+    public void setDon365degree(String don365degree) {
+        this.don365degree = don365degree;
     }
 
-    public String getEduField() {
-        return eduField;
+    public String getDon365eduField() {
+        return don365eduField;
     }
 
-    public void setEduField(String eduField) {
-        this.eduField = eduField;
+    public void setDon365eduField(String don365eduField) {
+        this.don365eduField = don365eduField;
     }
 
-    public String getUniName() {
-        return uniName;
+    public String getDon365uniName() {
+        return don365uniName;
     }
 
-    public void setUniName(String uniName) {
-        this.uniName = uniName;
+    public void setDon365uniName(String don365uniName) {
+        this.don365uniName = don365uniName;
     }
 
-    public String getUniCity() {
-        return uniCity;
+    public String getDon365uniCity() {
+        return don365uniCity;
     }
 
-    public void setUniCity(String uniCity) {
-        this.uniCity = uniCity;
+    public void setDon365uniCity(String don365uniCity) {
+        this.don365uniCity = don365uniCity;
     }
 
-    public Date getGraduationDate() {
-        return graduationDate;
+    public Date getDon365gradiationDate() {
+        return don365gradiationDate;
     }
 
-    public void setGraduationDate(Date graduationDate) {
-        this.graduationDate = graduationDate;
+    public void setDon365gradiationDate(Date don365gradiationDate) {
+        this.don365gradiationDate = don365gradiationDate;
     }
 
     public Short getDeleted() {
@@ -125,18 +131,18 @@ public class DonPast implements Serializable {
         this.deleted = deleted;
     }
 
-    public DonEducationalInfo getDon363id() {
-        return don363id;
+    public DonCustomer getDon360id() {
+        return don360id;
     }
 
-    public void setDon363id(DonEducationalInfo don363id) {
-        this.don363id = don363id;
+    public void setDon360id(DonCustomer don360id) {
+        this.don360id = don360id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (don365id != null ? don365id.hashCode() : 0);
         return hash;
     }
 
@@ -147,7 +153,7 @@ public class DonPast implements Serializable {
             return false;
         }
         DonPast other = (DonPast) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.don365id == null && other.don365id != null) || (this.don365id != null && !this.don365id.equals(other.don365id))) {
             return false;
         }
         return true;
@@ -155,7 +161,7 @@ public class DonPast implements Serializable {
 
     @Override
     public String toString() {
-        return "com.donkiello.model.entity.common.DonPast[ don365id=" + id + " ]";
+        return "com.donkiello.model.entity.common.DonPast[ don365id=" + don365id + " ]";
     }
     
 }

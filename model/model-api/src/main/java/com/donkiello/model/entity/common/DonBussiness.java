@@ -7,15 +7,17 @@
 package com.donkiello.model.entity.common;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,188 +29,215 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "don_bussiness")
 @XmlRootElement
 //@NamedQueries({
-//    @NamedQuery(name = "DonBussiness.findAll", query = "SELECT d FROM DonBussiness d")})
+//    @NamedQuery(name = "DonBussiness.findAll", query = "SELECT d FROM DonBussiness d"),
+//    @NamedQuery(name = "DonBussiness.findByDon368id", query = "SELECT d FROM DonBussiness d WHERE d.don368id = :don368id"),
+//    @NamedQuery(name = "DonBussiness.findByDon368bussName", query = "SELECT d FROM DonBussiness d WHERE d.don368bussName = :don368bussName"),
+//    @NamedQuery(name = "DonBussiness.findByDon368position", query = "SELECT d FROM DonBussiness d WHERE d.don368position = :don368position"),
+//    @NamedQuery(name = "DonBussiness.findByDon368bussAddress", query = "SELECT d FROM DonBussiness d WHERE d.don368bussAddress = :don368bussAddress"),
+//    @NamedQuery(name = "DonBussiness.findByDon368brand", query = "SELECT d FROM DonBussiness d WHERE d.don368brand = :don368brand"),
+//    @NamedQuery(name = "DonBussiness.findByDon368bussField", query = "SELECT d FROM DonBussiness d WHERE d.don368bussField = :don368bussField"),
+//    @NamedQuery(name = "DonBussiness.findByDon368officeTel", query = "SELECT d FROM DonBussiness d WHERE d.don368officeTel = :don368officeTel"),
+//    @NamedQuery(name = "DonBussiness.findByDon368secretaryName", query = "SELECT d FROM DonBussiness d WHERE d.don368secretaryName = :don368secretaryName"),
+//    @NamedQuery(name = "DonBussiness.findByDon368secretaryTel", query = "SELECT d FROM DonBussiness d WHERE d.don368secretaryTel = :don368secretaryTel"),
+//    @NamedQuery(name = "DonBussiness.findByDon368fax", query = "SELECT d FROM DonBussiness d WHERE d.don368fax = :don368fax"),
+//    @NamedQuery(name = "DonBussiness.findByDon368bussMail", query = "SELECT d FROM DonBussiness d WHERE d.don368bussMail = :don368bussMail"),
+//    @NamedQuery(name = "DonBussiness.findByDon368bussWebsite", query = "SELECT d FROM DonBussiness d WHERE d.don368bussWebsite = :don368bussWebsite"),
+//    @NamedQuery(name = "DonBussiness.findByDon368branchComp", query = "SELECT d FROM DonBussiness d WHERE d.don368branchComp = :don368branchComp"),
+//    @NamedQuery(name = "DonBussiness.findByDon368pastComps", query = "SELECT d FROM DonBussiness d WHERE d.don368pastComps = :don368pastComps"),
+//    @NamedQuery(name = "DonBussiness.findByDon368bussDescreption", query = "SELECT d FROM DonBussiness d WHERE d.don368bussDescreption = :don368bussDescreption"),
+//    @NamedQuery(name = "DonBussiness.findByDon368tag", query = "SELECT d FROM DonBussiness d WHERE d.don368tag = :don368tag"),
+//    @NamedQuery(name = "DonBussiness.findByDon368deleted", query = "SELECT d FROM DonBussiness d WHERE d.don368deleted = :don368deleted")})
 public class DonBussiness implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "don368id")
-    private BigDecimal id;
+    @Column(name = "DON368ID")
+    private Integer don368id;
     @Size(max = 1000)
-    @Column(name = "don368buss_name")
-    private String bussName;
+    @Column(name = "DON368BUSS_NAME")
+    private String don368bussName;
     @Size(max = 1000)
-    @Column(name = "don368position")
-    private String position;
+    @Column(name = "DON368POSITION")
+    private String don368position;
     @Size(max = 3000)
-    @Column(name = "don368buss_address")
-    private String bussAddress;
+    @Column(name = "DON368BUSS_ADDRESS")
+    private String don368bussAddress;
     @Size(max = 1000)
-    @Column(name = "don368brand")
-    private String brand;
+    @Column(name = "DON368BRAND")
+    private String don368brand;
     @Size(max = 1000)
-    @Column(name = "don368buss_field")
-    private String bussField;
+    @Column(name = "DON368BUSS_FIELD")
+    private String don368bussField;
     @Size(max = 1000)
-    @Column(name = "don368office_tel")
-    private String officeTel;
+    @Column(name = "DON368OFFICE_TEL")
+    private String don368officeTel;
     @Size(max = 1000)
-    @Column(name = "don368secretary_name")
-    private String secretaryName;
+    @Column(name = "DON368SECRETARY_NAME")
+    private String don368secretaryName;
     @Size(max = 1000)
-    @Column(name = "don368secretary_tel")
-    private String secretaryTel;
+    @Column(name = "DON368SECRETARY_TEL")
+    private String don368secretaryTel;
     @Size(max = 1000)
-    @Column(name = "don368fax")
-    private String fax;
+    @Column(name = "DON368FAX")
+    private String don368fax;
     @Size(max = 1000)
-    @Column(name = "don368buss_mail")
-    private String bussMail;
+    @Column(name = "DON368BUSS_MAIL")
+    private String don368bussMail;
     @Size(max = 200)
-    @Column(name = "don368buss_website")
-    private String bussWebsite;
+    @Column(name = "DON368BUSS_WEBSITE")
+    private String don368bussWebsite;
     @Size(max = 1000)
-    @Column(name = "don368branch_comp")
-    private String branchComp;
+    @Column(name = "DON368BRANCH_COMP")
+    private String don368branchComp;
     @Size(max = 1000)
-    @Column(name = "don368past_comps")
-    private String pastComps;
+    @Column(name = "DON368PAST_COMPS")
+    private String don368pastComps;
     @Size(max = 2000)
-    @Column(name = "don368buss_descreption")
-    private String bussDescreption;
-    @Column(name = "don368deleted")
+    @Column(name = "DON368BUSS_DESCREPTION")
+    private String don368bussDescreption;
+    @Size(max = 500)
+    @Column(name = "DON368TAG")
+    private String don368tag;
+    @Column(name = "DON368DELETED")
     private Short deleted;
-    @JoinColumn(name = "don366id", referencedColumnName = "don366id")
-    @ManyToOne
-    private DonBussinessInfo don366id;
+    @JoinColumn(name = "DON360ID", referencedColumnName = "DON360ID")
+    @ManyToOne(optional = false)
+    private DonCustomer don360id;
 
     public DonBussiness() {
     }
 
-    public DonBussiness(BigDecimal don368id) {
-        this.id = don368id;
+    public DonBussiness(Integer don368id) {
+        this.don368id = don368id;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public Integer getDon368id() {
+        return don368id;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setDon368id(Integer don368id) {
+        this.don368id = don368id;
     }
 
-    public String getBussName() {
-        return bussName;
+    public String getDon368bussName() {
+        return don368bussName;
     }
 
-    public void setBussName(String bussName) {
-        this.bussName = bussName;
+    public void setDon368bussName(String don368bussName) {
+        this.don368bussName = don368bussName;
     }
 
-    public String getPosition() {
-        return position;
+    public String getDon368position() {
+        return don368position;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setDon368position(String don368position) {
+        this.don368position = don368position;
     }
 
-    public String getBussAddress() {
-        return bussAddress;
+    public String getDon368bussAddress() {
+        return don368bussAddress;
     }
 
-    public void setBussAddress(String bussAddress) {
-        this.bussAddress = bussAddress;
+    public void setDon368bussAddress(String don368bussAddress) {
+        this.don368bussAddress = don368bussAddress;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getDon368brand() {
+        return don368brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setDon368brand(String don368brand) {
+        this.don368brand = don368brand;
     }
 
-    public String getBussField() {
-        return bussField;
+    public String getDon368bussField() {
+        return don368bussField;
     }
 
-    public void setBussField(String bussField) {
-        this.bussField = bussField;
+    public void setDon368bussField(String don368bussField) {
+        this.don368bussField = don368bussField;
     }
 
-    public String getOfficeTel() {
-        return officeTel;
+    public String getDon368officeTel() {
+        return don368officeTel;
     }
 
-    public void setOfficeTel(String officeTel) {
-        this.officeTel = officeTel;
+    public void setDon368officeTel(String don368officeTel) {
+        this.don368officeTel = don368officeTel;
     }
 
-    public String getSecretaryName() {
-        return secretaryName;
+    public String getDon368secretaryName() {
+        return don368secretaryName;
     }
 
-    public void setSecretaryName(String secretaryName) {
-        this.secretaryName = secretaryName;
+    public void setDon368secretaryName(String don368secretaryName) {
+        this.don368secretaryName = don368secretaryName;
     }
 
-    public String getSecretaryTel() {
-        return secretaryTel;
+    public String getDon368secretaryTel() {
+        return don368secretaryTel;
     }
 
-    public void setSecretaryTel(String secretaryTel) {
-        this.secretaryTel = secretaryTel;
+    public void setDon368secretaryTel(String don368secretaryTel) {
+        this.don368secretaryTel = don368secretaryTel;
     }
 
-    public String getFax() {
-        return fax;
+    public String getDon368fax() {
+        return don368fax;
     }
 
-    public void setFax(String fax) {
-        this.fax = fax;
+    public void setDon368fax(String don368fax) {
+        this.don368fax = don368fax;
     }
 
-    public String getBussMail() {
-        return bussMail;
+    public String getDon368bussMail() {
+        return don368bussMail;
     }
 
-    public void setBussMail(String bussMail) {
-        this.bussMail = bussMail;
+    public void setDon368bussMail(String don368bussMail) {
+        this.don368bussMail = don368bussMail;
     }
 
-    public String getBussWebsite() {
-        return bussWebsite;
+    public String getDon368bussWebsite() {
+        return don368bussWebsite;
     }
 
-    public void setBussWebsite(String bussWebsite) {
-        this.bussWebsite = bussWebsite;
+    public void setDon368bussWebsite(String don368bussWebsite) {
+        this.don368bussWebsite = don368bussWebsite;
     }
 
-    public String getBranchComp() {
-        return branchComp;
+    public String getDon368branchComp() {
+        return don368branchComp;
     }
 
-    public void setBranchComp(String branchComp) {
-        this.branchComp = branchComp;
+    public void setDon368branchComp(String don368branchComp) {
+        this.don368branchComp = don368branchComp;
     }
 
-    public String getPastComps() {
-        return pastComps;
+    public String getDon368pastComps() {
+        return don368pastComps;
     }
 
-    public void setPastComps(String pastComps) {
-        this.pastComps = pastComps;
+    public void setDon368pastComps(String don368pastComps) {
+        this.don368pastComps = don368pastComps;
     }
 
-    public String getBussDescreption() {
-        return bussDescreption;
+    public String getDon368bussDescreption() {
+        return don368bussDescreption;
     }
 
-    public void setBussDescreption(String bussDescreption) {
-        this.bussDescreption = bussDescreption;
+    public void setDon368bussDescreption(String don368bussDescreption) {
+        this.don368bussDescreption = don368bussDescreption;
+    }
+
+    public String getDon368tag() {
+        return don368tag;
+    }
+
+    public void setDon368tag(String don368tag) {
+        this.don368tag = don368tag;
     }
 
     public Short getDeleted() {
@@ -219,18 +248,18 @@ public class DonBussiness implements Serializable {
         this.deleted = deleted;
     }
 
-    public DonBussinessInfo getDon366id() {
-        return don366id;
+    public DonCustomer getDon360id() {
+        return don360id;
     }
 
-    public void setDon366id(DonBussinessInfo don366id) {
-        this.don366id = don366id;
+    public void setDon360id(DonCustomer don360id) {
+        this.don360id = don360id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (don368id != null ? don368id.hashCode() : 0);
         return hash;
     }
 
@@ -241,7 +270,7 @@ public class DonBussiness implements Serializable {
             return false;
         }
         DonBussiness other = (DonBussiness) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.don368id == null && other.don368id != null) || (this.don368id != null && !this.don368id.equals(other.don368id))) {
             return false;
         }
         return true;
@@ -249,7 +278,7 @@ public class DonBussiness implements Serializable {
 
     @Override
     public String toString() {
-        return "com.donkiello.model.entity.common.DonBussiness[ don368id=" + id + " ]";
+        return "com.donkiello.model.entity.common.DonBussiness[ don368id=" + don368id + " ]";
     }
     
 }

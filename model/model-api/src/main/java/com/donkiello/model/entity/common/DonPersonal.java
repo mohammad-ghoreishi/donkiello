@@ -7,26 +7,23 @@
 package com.donkiello.model.entity.common;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -36,290 +33,321 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "don_personal")
 @XmlRootElement
 //@NamedQueries({
-//    @NamedQuery(name = "DonPersonal.findAll", query = "SELECT d FROM DonPersonal d")})
+//    @NamedQuery(name = "DonPersonal.findAll", query = "SELECT d FROM DonPersonal d"),
+//    @NamedQuery(name = "DonPersonal.findByDon361id", query = "SELECT d FROM DonPersonal d WHERE d.don361id = :don361id"),
+//    @NamedQuery(name = "DonPersonal.findByDon361name", query = "SELECT d FROM DonPersonal d WHERE d.don361name = :don361name"),
+//    @NamedQuery(name = "DonPersonal.findByDon361familyName", query = "SELECT d FROM DonPersonal d WHERE d.don361familyName = :don361familyName"),
+//    @NamedQuery(name = "DonPersonal.findByDon361gender", query = "SELECT d FROM DonPersonal d WHERE d.don361gender = :don361gender"),
+//    @NamedQuery(name = "DonPersonal.findByDon361mobileNumber", query = "SELECT d FROM DonPersonal d WHERE d.don361mobileNumber = :don361mobileNumber"),
+//    @NamedQuery(name = "DonPersonal.findByDon361enName", query = "SELECT d FROM DonPersonal d WHERE d.don361enName = :don361enName"),
+//    @NamedQuery(name = "DonPersonal.findByDon361enFamily", query = "SELECT d FROM DonPersonal d WHERE d.don361enFamily = :don361enFamily"),
+//    @NamedQuery(name = "DonPersonal.findByDon361prefix", query = "SELECT d FROM DonPersonal d WHERE d.don361prefix = :don361prefix"),
+//    @NamedQuery(name = "DonPersonal.findByDon361enPrefix", query = "SELECT d FROM DonPersonal d WHERE d.don361enPrefix = :don361enPrefix"),
+//    @NamedQuery(name = "DonPersonal.findByDon361homeTel", query = "SELECT d FROM DonPersonal d WHERE d.don361homeTel = :don361homeTel"),
+//    @NamedQuery(name = "DonPersonal.findByDon361homeFax", query = "SELECT d FROM DonPersonal d WHERE d.don361homeFax = :don361homeFax"),
+//    @NamedQuery(name = "DonPersonal.findByDon361postalCode", query = "SELECT d FROM DonPersonal d WHERE d.don361postalCode = :don361postalCode"),
+//    @NamedQuery(name = "DonPersonal.findByDon361homeAddress", query = "SELECT d FROM DonPersonal d WHERE d.don361homeAddress = :don361homeAddress"),
+//    @NamedQuery(name = "DonPersonal.findByDon361fHName", query = "SELECT d FROM DonPersonal d WHERE d.don361fHName = :don361fHName"),
+//    @NamedQuery(name = "DonPersonal.findByDon361enFHName", query = "SELECT d FROM DonPersonal d WHERE d.don361enFHName = :don361enFHName"),
+//    @NamedQuery(name = "DonPersonal.findByDon361birthday", query = "SELECT d FROM DonPersonal d WHERE d.don361birthday = :don361birthday"),
+//    @NamedQuery(name = "DonPersonal.findByDon361enHomeAddress", query = "SELECT d FROM DonPersonal d WHERE d.don361enHomeAddress = :don361enHomeAddress"),
+//    @NamedQuery(name = "DonPersonal.findByDon361birthPlace", query = "SELECT d FROM DonPersonal d WHERE d.don361birthPlace = :don361birthPlace"),
+//    @NamedQuery(name = "DonPersonal.findByDon361passportNo", query = "SELECT d FROM DonPersonal d WHERE d.don361passportNo = :don361passportNo"),
+//    @NamedQuery(name = "DonPersonal.findByDon361birthCerNo", query = "SELECT d FROM DonPersonal d WHERE d.don361birthCerNo = :don361birthCerNo"),
+//    @NamedQuery(name = "DonPersonal.findByDon361personalMail", query = "SELECT d FROM DonPersonal d WHERE d.don361personalMail = :don361personalMail"),
+//    @NamedQuery(name = "DonPersonal.findByDon361hobbies", query = "SELECT d FROM DonPersonal d WHERE d.don361hobbies = :don361hobbies"),
+//    @NamedQuery(name = "DonPersonal.findByDon364deleted", query = "SELECT d FROM DonPersonal d WHERE d.don364deleted = :don364deleted")})
 public class DonPersonal implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "don361id")
-    private BigDecimal id;
+    @Column(name = "DON361ID")
+    private Integer don361id;
     @Size(max = 1000)
-    @Column(name = "don361name")
-    private String name;
+    @Column(name = "DON361NAME")
+    private String don361name;
     @Size(max = 1000)
-    @Column(name = "don361family_name")
-    private String familyName;
-    @Column(name = "don361gender")
-    private Short gender;
+    @Column(name = "DON361FAMILY_NAME")
+    private String don361familyName;
+    @Column(name = "DON361GENDER")
+    private Short don361gender;
     @Size(max = 1000)
-    @Column(name = "don361mobile_number")
-    private String mobileNumber;
+    @Column(name = "DON361MOBILE_NUMBER")
+    private String don361mobileNumber;
     @Size(max = 1000)
-    @Column(name = "don361en_name")
-    private String enName;
+    @Column(name = "DON361EN_NAME")
+    private String don361enName;
     @Size(max = 1000)
-    @Column(name = "don361en_family")
-    private String enFamily;
+    @Column(name = "DON361EN_FAMILY")
+    private String don361enFamily;
     @Size(max = 1000)
-    @Column(name = "don361prefix")
-    private String prefix;
+    @Column(name = "DON361PREFIX")
+    private String don361prefix;
     @Size(max = 1000)
-    @Column(name = "don361en_prefix")
-    private String enPrefix;
+    @Column(name = "DON361EN_PREFIX")
+    private String don361enPrefix;
     @Size(max = 1000)
-    @Column(name = "don361home_tel")
-    private String homeTel;
+    @Column(name = "DON361HOME_TEL")
+    private String don361homeTel;
     @Size(max = 1000)
-    @Column(name = "don361home_fax")
-    private String homeFax;
+    @Column(name = "DON361HOME_FAX")
+    private String don361homeFax;
     @Size(max = 1000)
-    @Column(name = "don361postal_code")
-    private String postalCode;
+    @Column(name = "DON361POSTAL_CODE")
+    private String don361postalCode;
     @Size(max = 3000)
-    @Column(name = "don361home_address")
-    private String homeAddress;
+    @Column(name = "DON361HOME_ADDRESS")
+    private String don361homeAddress;
     @Size(max = 1000)
-    @Column(name = "don361f_h_name")
-    private String fHName;
+    @Column(name = "DON361F_H_NAME")
+    private String don361fHName;
     @Size(max = 1000)
-    @Column(name = "don361en_f_h_name")
-    private String enFHName;
-    @Column(name = "don361birthday")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date birthday;
+    @Column(name = "DON361EN_F_H_NAME")
+    private String don361enFHName;
+    @Column(name = "DON361BIRTHDAY")
+    @Temporal(TemporalType.DATE)
+    private Date don361birthday;
     @Size(max = 1000)
-    @Column(name = "don361en_home_address")
-    private String enHomeAddress;
+    @Column(name = "DON361EN_HOME_ADDRESS")
+    private String don361enHomeAddress;
     @Size(max = 1000)
-    @Column(name = "don361birth_place")
-    private String birthPlace;
+    @Column(name = "DON361BIRTH_PLACE")
+    private String don361birthPlace;
     @Size(max = 1000)
-    @Column(name = "don361passport_no")
-    private String passportNo;
+    @Column(name = "DON361PASSPORT_NO")
+    private String don361passportNo;
     @Size(max = 100)
-    @Column(name = "don361birth_cer_no")
-    private String birthCerNo;
+    @Column(name = "DON361BIRTH_CER_NO")
+    private String don361birthCerNo;
     @Size(max = 100)
-    @Column(name = "don361personal_mail")
-    private String personalMail;
+    @Column(name = "DON361PERSONAL_MAIL")
+    private String don361personalMail;
     @Lob
-    @Column(name = "don361passport_scan")
-    private Serializable passportScan;
+    @Column(name = "DON361PASSPORT_SCAN")
+    private byte[] don361passportScan;
     @Lob
-    @Column(name = "don361birth_cert_scan")
-    private Serializable birthCertScan;
+    @Column(name = "DON361BIRTH_CERT_SCAN")
+    private byte[] don361birthCertScan;
     @Lob
-    @Column(name = "don361description")
-    private String description;
-    @Column(name = "don364deleted")
+    @Size(max = 65535)
+    @Column(name = "DON361DESCRIPTION")
+    private String don361description;
+    @Size(max = 1000)
+    @Column(name = "DON361HOBBIES")
+    private String don361hobbies;
+    @Column(name = "DON364DELETED")
     private Short deleted;
-    @JoinColumn(name = "don360id", referencedColumnName = "don360id")
-    @ManyToOne
+    @JoinColumn(name = "DON360ID", referencedColumnName = "DON360ID")
+    @ManyToOne(optional = false)
     private DonCustomer don360id;
-    @OneToMany(mappedBy = "don361id")
-    private List<DonHobbies> donHobbiesList;
-    @OneToMany(mappedBy = "don361id")
-    private List<DonCustomer> donCustomerList;
 
     public DonPersonal() {
     }
 
-    public DonPersonal(BigDecimal don361id) {
-        this.id = don361id;
+    public DonPersonal(Integer don361id) {
+        this.don361id = don361id;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public Integer getDon361id() {
+        return don361id;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setDon361id(Integer don361id) {
+        this.don361id = don361id;
     }
 
-    public String getName() {
-        return name;
+    public String getDon361name() {
+        return don361name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDon361name(String don361name) {
+        this.don361name = don361name;
     }
 
-    public String getFamilyName() {
-        return familyName;
+    public String getDon361familyName() {
+        return don361familyName;
     }
 
-    public void setFamilyName(String familyName) {
-        this.familyName = familyName;
+    public void setDon361familyName(String don361familyName) {
+        this.don361familyName = don361familyName;
     }
 
-    public Short getGender() {
-        return gender;
+    public Short getDon361gender() {
+       
+        return don361gender;
     }
 
-    public void setGender(Short gender) {
-        this.gender = gender;
+    public void setDon361gender(Short don361gender) {
+        this.don361gender = don361gender;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public String getDon361mobileNumber() {
+        return don361mobileNumber;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setDon361mobileNumber(String don361mobileNumber) {
+        this.don361mobileNumber = don361mobileNumber;
     }
 
-    public String getEnName() {
-        return enName;
+    public String getDon361enName() {
+        return don361enName;
     }
 
-    public void setEnName(String enName) {
-        this.enName = enName;
+    public void setDon361enName(String don361enName) {
+        this.don361enName = don361enName;
     }
 
-    public String getEnFamily() {
-        return enFamily;
+    public String getDon361enFamily() {
+        return don361enFamily;
     }
 
-    public void setEnFamily(String enFamily) {
-        this.enFamily = enFamily;
+    public void setDon361enFamily(String don361enFamily) {
+        this.don361enFamily = don361enFamily;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getDon361prefix() {
+        return don361prefix;
     }
 
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
+    public void setDon361prefix(String don361prefix) {
+        this.don361prefix = don361prefix;
     }
 
-    public String getEnPrefix() {
-        return enPrefix;
+    public String getDon361enPrefix() {
+        return don361enPrefix;
     }
 
-    public void setEnPrefix(String enPrefix) {
-        this.enPrefix = enPrefix;
+    public void setDon361enPrefix(String don361enPrefix) {
+        this.don361enPrefix = don361enPrefix;
     }
 
-    public String getHomeTel() {
-        return homeTel;
+    public String getDon361homeTel() {
+        return don361homeTel;
     }
 
-    public void setHomeTel(String homeTel) {
-        this.homeTel = homeTel;
+    public void setDon361homeTel(String don361homeTel) {
+        this.don361homeTel = don361homeTel;
     }
 
-    public String getHomeFax() {
-        return homeFax;
+    public String getDon361homeFax() {
+        return don361homeFax;
     }
 
-    public void setHomeFax(String homeFax) {
-        this.homeFax = homeFax;
+    public void setDon361homeFax(String don361homeFax) {
+        this.don361homeFax = don361homeFax;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getDon361postalCode() {
+        return don361postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setDon361postalCode(String don361postalCode) {
+        this.don361postalCode = don361postalCode;
     }
 
-    public String getHomeAddress() {
-        return homeAddress;
+    public String getDon361homeAddress() {
+        return don361homeAddress;
     }
 
-    public void setHomeAddress(String homeAddress) {
-        this.homeAddress = homeAddress;
+    public void setDon361homeAddress(String don361homeAddress) {
+        this.don361homeAddress = don361homeAddress;
     }
 
-    public String getfHName() {
-        return fHName;
+    public String getDon361fHName() {
+        return don361fHName;
     }
 
-    public void setfHName(String fHName) {
-        this.fHName = fHName;
+    public void setDon361fHName(String don361fHName) {
+        this.don361fHName = don361fHName;
     }
 
-    public String getEnFHName() {
-        return enFHName;
+    public String getDon361enFHName() {
+        return don361enFHName;
     }
 
-    public void setEnFHName(String enFHName) {
-        this.enFHName = enFHName;
+    public void setDon361enFHName(String don361enFHName) {
+        this.don361enFHName = don361enFHName;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Date getDon361birthday() {
+        return don361birthday;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setDon361birthday(Date don361birthday) {
+        this.don361birthday = don361birthday;
     }
 
-    public String getEnHomeAddress() {
-        return enHomeAddress;
+    public String getDon361enHomeAddress() {
+        return don361enHomeAddress;
     }
 
-    public void setEnHomeAddress(String enHomeAddress) {
-        this.enHomeAddress = enHomeAddress;
+    public void setDon361enHomeAddress(String don361enHomeAddress) {
+        this.don361enHomeAddress = don361enHomeAddress;
     }
 
-    public String getBirthPlace() {
-        return birthPlace;
+    public String getDon361birthPlace() {
+        return don361birthPlace;
     }
 
-    public void setBirthPlace(String birthPlace) {
-        this.birthPlace = birthPlace;
+    public void setDon361birthPlace(String don361birthPlace) {
+        this.don361birthPlace = don361birthPlace;
     }
 
-    public String getPassportNo() {
-        return passportNo;
+    public String getDon361passportNo() {
+        return don361passportNo;
     }
 
-    public void setPassportNo(String passportNo) {
-        this.passportNo = passportNo;
+    public void setDon361passportNo(String don361passportNo) {
+        this.don361passportNo = don361passportNo;
     }
 
-    public String getBirthCerNo() {
-        return birthCerNo;
+    public String getDon361birthCerNo() {
+        return don361birthCerNo;
     }
 
-    public void setBirthCerNo(String birthCerNo) {
-        this.birthCerNo = birthCerNo;
+    public void setDon361birthCerNo(String don361birthCerNo) {
+        this.don361birthCerNo = don361birthCerNo;
     }
 
-    public String getPersonalMail() {
-        return personalMail;
+    public String getDon361personalMail() {
+        return don361personalMail;
     }
 
-    public void setPersonalMail(String personalMail) {
-        this.personalMail = personalMail;
+    public void setDon361personalMail(String don361personalMail) {
+        this.don361personalMail = don361personalMail;
     }
 
-    public Serializable getPassportScan() {
-        return passportScan;
+    public byte[] getDon361passportScan() {
+        return don361passportScan;
     }
 
-    public void setPassportScan(Serializable passportScan) {
-        this.passportScan = passportScan;
+    public void setDon361passportScan(byte[] don361passportScan) {
+        this.don361passportScan = don361passportScan;
     }
 
-    public Serializable getBirthCertScan() {
-        return birthCertScan;
+    public byte[] getDon361birthCertScan() {
+        return don361birthCertScan;
     }
 
-    public void setBirthCertScan(Serializable birthCertScan) {
-        this.birthCertScan = birthCertScan;
+    public void setDon361birthCertScan(byte[] don361birthCertScan) {
+        this.don361birthCertScan = don361birthCertScan;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDon361description() {
+        return don361description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDon361description(String don361description) {
+        this.don361description = don361description;
+    }
+
+    public String getDon361hobbies() {
+        return don361hobbies;
+    }
+
+    public void setDon361hobbies(String don361hobbies) {
+        this.don361hobbies = don361hobbies;
     }
 
     public Short getDeleted() {
@@ -338,28 +366,10 @@ public class DonPersonal implements Serializable {
         this.don360id = don360id;
     }
 
-    @XmlTransient
-    public List<DonHobbies> getDonHobbiesList() {
-        return donHobbiesList;
-    }
-
-    public void setDonHobbiesList(List<DonHobbies> donHobbiesList) {
-        this.donHobbiesList = donHobbiesList;
-    }
-
-    @XmlTransient
-    public List<DonCustomer> getDonCustomerList() {
-        return donCustomerList;
-    }
-
-    public void setDonCustomerList(List<DonCustomer> donCustomerList) {
-        this.donCustomerList = donCustomerList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (don361id != null ? don361id.hashCode() : 0);
         return hash;
     }
 
@@ -370,7 +380,7 @@ public class DonPersonal implements Serializable {
             return false;
         }
         DonPersonal other = (DonPersonal) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.don361id == null && other.don361id != null) || (this.don361id != null && !this.don361id.equals(other.don361id))) {
             return false;
         }
         return true;
@@ -378,7 +388,7 @@ public class DonPersonal implements Serializable {
 
     @Override
     public String toString() {
-        return "com.donkiello.model.entity.common.DonPersonal[ don361id=" + id + " ]";
+        return "com.donkiello.model.entity.common.DonPersonal[ don361id=" + don361id + " ]";
     }
     
 }

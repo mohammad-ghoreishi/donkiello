@@ -10,7 +10,7 @@ import com.donkiello.model.dao.base.AbstractDao;
 import com.donkiello.model.dao.common.inter.IDonBussinessDao;
 import com.donkiello.model.entity.common.DonBussiness;
 import com.donkiello.model.exeption.BusinessException;
-import com.donkiello.model.service.common.inter.IDonBussinessService;
+import com.donkiello.model.service.common.IDonBussinessService;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

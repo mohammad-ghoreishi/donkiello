@@ -7,23 +7,25 @@
 package com.donkiello.model.entity.common;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -33,74 +35,90 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "don_customer")
 @XmlRootElement
 //@NamedQueries({
-//    @NamedQuery(name = "DonCustomer.findAll", query = "SELECT d FROM DonCustomer d")})
+//    @NamedQuery(name = "DonCustomer.findAll", query = "SELECT d FROM DonCustomer d"),
+//    @NamedQuery(name = "DonCustomer.findByDon360id", query = "SELECT d FROM DonCustomer d WHERE d.don360id = :don360id"),
+//    @NamedQuery(name = "DonCustomer.findByDon360deleted", query = "SELECT d FROM DonCustomer d WHERE d.don360deleted = :don360deleted"),
+//    @NamedQuery(name = "DonCustomer.findByDon360name", query = "SELECT d FROM DonCustomer d WHERE d.don360name = :don360name"),
+//    @NamedQuery(name = "DonCustomer.findByDon360bussinessNames", query = "SELECT d FROM DonCustomer d WHERE d.don360bussinessNames = :don360bussinessNames"),
+//    @NamedQuery(name = "DonCustomer.findByDon360programs", query = "SELECT d FROM DonCustomer d WHERE d.don360programs = :don360programs"),
+//    @NamedQuery(name = "DonCustomer.findByDon360paymentStatus", query = "SELECT d FROM DonCustomer d WHERE d.don360paymentStatus = :don360paymentStatus"),
+//    @NamedQuery(name = "DonCustomer.findByDon360mobileno", query = "SELECT d FROM DonCustomer d WHERE d.don360mobileno = :don360mobileno")})
 public class DonCustomer implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "don360id")
-    private BigDecimal id;
+    @Column(name = "DON360ID")
+    private Integer don360id;
     @Lob
-    @Column(name = "don360customer_rate")
-    private String customerRate;
+    @Size(max = 65535)
+    @Column(name = "DON360CUSTOMER_RATE")
+    private String don360customerRate;
     @Lob
-    @Column(name = "don360customer_eco_rate")
-    private String customerEcoRate;
-    @Column(name = "don360deleted")
+    @Size(max = 65535)
+    @Column(name = "DON360CUSTOMER_ECO_RATE")
+    private String don360customerEcoRate;
+    @Column(name = "DON360DELETED")
     private Short deleted;
     @Size(max = 1000)
-    @Column(name = "don360name")
-    private String name;
+    @Column(name = "DON360NAME")
+    private String don360name;
     @Lob
-    @Column(name = "don360image")
-    private Serializable image;
-    @OneToMany(mappedBy = "don360id")
+    @Column(name = "DON360IMAGE")
+    private byte[] don360image;
+    @Size(max = 5000)
+    @Column(name = "DON360BUSSINESS_NAMES")
+    private String don360bussinessNames;
+    @Size(max = 500)
+    @Column(name = "DON360PROGRAMS")
+    private String don360programs;
+    @Column(name = "DON360PAYMENT_STATUS")
+    private Long don360paymentStatus;
+    @Size(max = 200)
+    @Column(name = "DON360MOBILENO")
+    private String don360mobileno;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "don360id" )
     private List<DonPersonal> donPersonalList;
-    @OneToMany(mappedBy = "don360id")
-    private List<DonBussinessInfo> donBussinessInfoList;
-    @OneToMany(mappedBy = "don360id")
-    private List<DonEducationalInfo> donEducationalInfoList;
-    @JoinColumn(name = "don361id", referencedColumnName = "don361id")
-    @ManyToOne
-    private DonPersonal don361id;
-    @JoinColumn(name = "don363id", referencedColumnName = "don363id")
-    @ManyToOne
-    private DonEducationalInfo don363id;
-    @JoinColumn(name = "don366id", referencedColumnName = "don366id")
-    @ManyToOne
-    private DonBussinessInfo don366id;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "don360id" )
+    private List<DonPast> donPastList;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "don360id" )
+    private List<DonBussiness> donBussinessList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "don360id")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<DonProgram> donProgramList;
 
     public DonCustomer() {
     }
 
-    public DonCustomer(BigDecimal don360id) {
-        this.id = don360id;
+    public DonCustomer(Integer don360id) {
+        this.don360id = don360id;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public Integer getDon360id() {
+        return don360id;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setDon360id(Integer don360id) {
+        this.don360id = don360id;
     }
 
-    public String getCustomerRate() {
-        return customerRate;
+    public String getDon360customerRate() {
+        return don360customerRate;
     }
 
-    public void setCustomerRate(String customerRate) {
-        this.customerRate = customerRate;
+    public void setDon360customerRate(String don360customerRate) {
+        this.don360customerRate = don360customerRate;
     }
 
-    public String getCustomerEcoRate() {
-        return customerEcoRate;
+    public String getDon360customerEcoRate() {
+        return don360customerEcoRate;
     }
 
-    public void setCustomerEcoRate(String customerEcoRate) {
-        this.customerEcoRate = customerEcoRate;
+    public void setDon360customerEcoRate(String don360customerEcoRate) {
+        this.don360customerEcoRate = don360customerEcoRate;
     }
 
     public Short getDeleted() {
@@ -108,23 +126,57 @@ public class DonCustomer implements Serializable {
     }
 
     public void setDeleted(Short deleted) {
+        System.out.println("in set deleted");
         this.deleted = deleted;
+        System.out.println("after set deleted");
     }
 
-    public String getName() {
-        return name;
+    public String getDon360name() {
+        return don360name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDon360name(String don360name) {
+        this.don360name = don360name;
     }
 
-    public Serializable getImage() {
-        return image;
+    public byte[] getDon360image() {
+        return don360image;
     }
 
-    public void setImage(Serializable image) {
-        this.image = image;
+    public void setDon360image(byte[] don360image) {
+        this.don360image = don360image;
+    }
+
+    public String getDon360bussinessNames() {
+        return don360bussinessNames;
+    }
+
+    public void setDon360bussinessNames(String don360bussinessNames) {
+        this.don360bussinessNames = don360bussinessNames;
+    }
+
+    public String getDon360programs() {
+        return don360programs;
+    }
+
+    public void setDon360programs(String don360programs) {
+        this.don360programs = don360programs;
+    }
+
+    public Long getDon360paymentStatus() {
+        return don360paymentStatus;
+    }
+
+    public void setDon360paymentStatus(Long don360paymentStatus) {
+        this.don360paymentStatus = don360paymentStatus;
+    }
+
+    public String getDon360mobileno() {
+        return don360mobileno;
+    }
+
+    public void setDon360mobileno(String don360mobileno) {
+        this.don360mobileno = don360mobileno;
     }
 
     @XmlTransient
@@ -137,51 +189,36 @@ public class DonCustomer implements Serializable {
     }
 
     @XmlTransient
-    public List<DonBussinessInfo> getDonBussinessInfoList() {
-        return donBussinessInfoList;
+    public List<DonPast> getDonPastList() {
+        return donPastList;
     }
 
-    public void setDonBussinessInfoList(List<DonBussinessInfo> donBussinessInfoList) {
-        this.donBussinessInfoList = donBussinessInfoList;
+    public void setDonPastList(List<DonPast> donPastList) {
+        this.donPastList = donPastList;
     }
 
     @XmlTransient
-    public List<DonEducationalInfo> getDonEducationalInfoList() {
-        return donEducationalInfoList;
+    public List<DonBussiness> getDonBussinessList() {
+        return donBussinessList;
     }
 
-    public void setDonEducationalInfoList(List<DonEducationalInfo> donEducationalInfoList) {
-        this.donEducationalInfoList = donEducationalInfoList;
+    public void setDonBussinessList(List<DonBussiness> donBussinessList) {
+        this.donBussinessList = donBussinessList;
     }
 
-    public DonPersonal getDon361id() {
-        return don361id;
+    @XmlTransient
+    public List<DonProgram> getDonProgramList() {
+        return donProgramList;
     }
 
-    public void setDon361id(DonPersonal don361id) {
-        this.don361id = don361id;
-    }
-
-    public DonEducationalInfo getDon363id() {
-        return don363id;
-    }
-
-    public void setDon363id(DonEducationalInfo don363id) {
-        this.don363id = don363id;
-    }
-
-    public DonBussinessInfo getDon366id() {
-        return don366id;
-    }
-
-    public void setDon366id(DonBussinessInfo don366id) {
-        this.don366id = don366id;
+    public void setDonProgramList(List<DonProgram> donProgramList) {
+        this.donProgramList = donProgramList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (don360id != null ? don360id.hashCode() : 0);
         return hash;
     }
 
@@ -192,7 +229,7 @@ public class DonCustomer implements Serializable {
             return false;
         }
         DonCustomer other = (DonCustomer) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.don360id == null && other.don360id != null) || (this.don360id != null && !this.don360id.equals(other.don360id))) {
             return false;
         }
         return true;
@@ -200,7 +237,7 @@ public class DonCustomer implements Serializable {
 
     @Override
     public String toString() {
-        return "com.donkiello.model.entity.common.DonCustomer[ don360id=" + id + " ]";
+        return "com.donkiello.model.entity.common.DonCustomer[ don360id=" + don360id + " ]";
     }
     
 }

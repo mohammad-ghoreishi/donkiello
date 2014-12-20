@@ -37,11 +37,12 @@ public class DonProgramDao extends AbstractDao implements IDonProgramDao{
     }
 
     public void remove(DonProgram t) {
+        t.setDeleted(Short.valueOf("1"));
         getEntityManager().merge(t);
     }
 
     public List<DonProgram> getAll() {
-        Query query = getEntityManager().createQuery("SELECT c FROM DonProgram ");
+        Query query = getEntityManager().createQuery("SELECT c FROM DonProgram c WHERE c.deleted = 0 ");
         List<DonProgram> programms = query.getResultList();
         return programms;
     }

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.donkiello.model.service.common.inter;
+package com.donkiello.model.service.common;
 
 import com.donkiello.model.entity.common.DonBussiness;
 import com.donkiello.model.service.base.IService;

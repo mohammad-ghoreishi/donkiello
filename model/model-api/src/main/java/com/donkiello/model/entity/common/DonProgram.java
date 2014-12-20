@@ -7,17 +7,17 @@
 package com.donkiello.model.entity.common;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,109 +29,117 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "don_program")
 @XmlRootElement
 //@NamedQueries({
-//    @NamedQuery(name = "DonProgram.findAll", query = "SELECT d FROM DonProgram d")})
+//    @NamedQuery(name = "DonProgram.findAll", query = "SELECT d FROM DonProgram d"),
+//    @NamedQuery(name = "DonProgram.findByDon364id", query = "SELECT d FROM DonProgram d WHERE d.don364id = :don364id"),
+//    @NamedQuery(name = "DonProgram.findByDon364programName", query = "SELECT d FROM DonProgram d WHERE d.don364programName = :don364programName"),
+//    @NamedQuery(name = "DonProgram.findByDon364masterThesis", query = "SELECT d FROM DonProgram d WHERE d.don364masterThesis = :don364masterThesis"),
+//    @NamedQuery(name = "DonProgram.findByDon364thesisSubject", query = "SELECT d FROM DonProgram d WHERE d.don364thesisSubject = :don364thesisSubject"),
+//    @NamedQuery(name = "DonProgram.findByDon364supervisor", query = "SELECT d FROM DonProgram d WHERE d.don364supervisor = :don364supervisor"),
+//    @NamedQuery(name = "DonProgram.findByDon364firstPayment", query = "SELECT d FROM DonProgram d WHERE d.don364firstPayment = :don364firstPayment"),
+//    @NamedQuery(name = "DonProgram.findByDon364secondPayment", query = "SELECT d FROM DonProgram d WHERE d.don364secondPayment = :don364secondPayment"),
+//    @NamedQuery(name = "DonProgram.findByDon364paymentDesc", query = "SELECT d FROM DonProgram d WHERE d.don364paymentDesc = :don364paymentDesc"),
+//    @NamedQuery(name = "DonProgram.findByDon364deleted", query = "SELECT d FROM DonProgram d WHERE d.don364deleted = :don364deleted")})
 public class DonProgram implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Column(name = "don364id")
-    private BigDecimal id;
+    @Column(name = "DON364ID")
+    private Integer don364id;
     @Size(max = 1000)
-    @Column(name = "don364program_name")
-    private String programName;
+    @Column(name = "DON364PROGRAM_NAME")
+    private String don364programName;
     @Size(max = 2000)
-    @Column(name = "don364master_thesis")
-    private String masterThesis;
+    @Column(name = "DON364MASTER_THESIS")
+    private String don364masterThesis;
     @Size(max = 2000)
-    @Column(name = "don364thesis_subject")
-    private String thesisSubject;
+    @Column(name = "DON364THESIS_SUBJECT")
+    private String don364thesisSubject;
     @Size(max = 1000)
-    @Column(name = "don364supervisor")
-    private String supervisor;
-    @Column(name = "don364first_payment")
-    private Short firstPayment;
-    @Column(name = "don364second_payment")
-    private Short secondPayment;
+    @Column(name = "DON364SUPERVISOR")
+    private String don364supervisor;
+    @Column(name = "DON364FIRST_PAYMENT")
+    private Short don364firstPayment;
+    @Column(name = "DON364SECOND_PAYMENT")
+    private Short don364secondPayment;
     @Size(max = 2000)
-    @Column(name = "don364payment_desc")
-    private String paymentDesc;
-    @Column(name = "don364deleted")
+    @Column(name = "DON364PAYMENT_DESC")
+    private String don364paymentDesc;
+    @Column(name = "DON364DELETED")
     private Short deleted;
-    @JoinColumn(name = "don363id", referencedColumnName = "don363id")
-    @ManyToOne
-    private DonEducationalInfo don363id;
+    @JoinColumn(name = "DON360ID", referencedColumnName = "DON360ID")
+    @ManyToOne(optional = false)
+    private DonCustomer don360id;
 
     public DonProgram() {
     }
 
-    public DonProgram(BigDecimal don364id) {
-        this.id = don364id;
+    public DonProgram(Integer don364id) {
+        this.don364id = don364id;
     }
 
-    public BigDecimal getId() {
-        return id;
+    public Integer getDon364id() {
+        return don364id;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setDon364id(Integer don364id) {
+        this.don364id = don364id;
     }
 
-    public String getProgramName() {
-        return programName;
+    public String getDon364programName() {
+        return don364programName;
     }
 
-    public void setProgramName(String programName) {
-        this.programName = programName;
+    public void setDon364programName(String don364programName) {
+        this.don364programName = don364programName;
     }
 
-    public String getMasterThesis() {
-        return masterThesis;
+    public String getDon364masterThesis() {
+        return don364masterThesis;
     }
 
-    public void setMasterThesis(String masterThesis) {
-        this.masterThesis = masterThesis;
+    public void setDon364masterThesis(String don364masterThesis) {
+        this.don364masterThesis = don364masterThesis;
     }
 
-    public String getThesisSubject() {
-        return thesisSubject;
+    public String getDon364thesisSubject() {
+        return don364thesisSubject;
     }
 
-    public void setThesisSubject(String thesisSubject) {
-        this.thesisSubject = thesisSubject;
+    public void setDon364thesisSubject(String don364thesisSubject) {
+        this.don364thesisSubject = don364thesisSubject;
     }
 
-    public String getSupervisor() {
-        return supervisor;
+    public String getDon364supervisor() {
+        return don364supervisor;
     }
 
-    public void setSupervisor(String supervisor) {
-        this.supervisor = supervisor;
+    public void setDon364supervisor(String don364supervisor) {
+        this.don364supervisor = don364supervisor;
     }
 
-    public Short getFirstPayment() {
-        return firstPayment;
+    public Short getDon364firstPayment() {
+        return don364firstPayment;
     }
 
-    public void setFirstPayment(Short firstPayment) {
-        this.firstPayment = firstPayment;
+    public void setDon364firstPayment(Short don364firstPayment) {
+        this.don364firstPayment = don364firstPayment;
     }
 
-    public Short getSecondPayment() {
-        return secondPayment;
+    public Short getDon364secondPayment() {
+        return don364secondPayment;
     }
 
-    public void setSecondPayment(Short secondPayment) {
-        this.secondPayment = secondPayment;
+    public void setDon364secondPayment(Short don364secondPayment) {
+        this.don364secondPayment = don364secondPayment;
     }
 
-    public String getPaymentDesc() {
-        return paymentDesc;
+    public String getDon364paymentDesc() {
+        return don364paymentDesc;
     }
 
-    public void setPaymentDesc(String paymentDesc) {
-        this.paymentDesc = paymentDesc;
+    public void setDon364paymentDesc(String don364paymentDesc) {
+        this.don364paymentDesc = don364paymentDesc;
     }
 
     public Short getDeleted() {
@@ -142,18 +150,18 @@ public class DonProgram implements Serializable {
         this.deleted = deleted;
     }
 
-    public DonEducationalInfo getDon363id() {
-        return don363id;
+    public DonCustomer getDon360id() {
+        return don360id;
     }
 
-    public void setDon363id(DonEducationalInfo don363id) {
-        this.don363id = don363id;
+    public void setDon360id(DonCustomer don360id) {
+        this.don360id = don360id;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (don364id != null ? don364id.hashCode() : 0);
         return hash;
     }
 
@@ -164,7 +172,7 @@ public class DonProgram implements Serializable {
             return false;
         }
         DonProgram other = (DonProgram) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.don364id == null && other.don364id != null) || (this.don364id != null && !this.don364id.equals(other.don364id))) {
             return false;
         }
         return true;
@@ -172,7 +180,7 @@ public class DonProgram implements Serializable {
 
     @Override
     public String toString() {
-        return "com.donkiello.model.entity.common.DonProgram[ don364id=" + id + " ]";
+        return "com.donkiello.model.entity.common.DonProgram[ don364id=" + don364id + " ]";
     }
     
 }

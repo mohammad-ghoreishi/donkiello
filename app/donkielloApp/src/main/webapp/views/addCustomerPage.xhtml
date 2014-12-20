@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:view 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head/>
+    <h:body>
+        <h:form id="form"  >
+            <f:event type="preRenderView" listener="#{addCustomer.initialize()}"/>
+
+            <p:tabView  activeIndex="#{addCustomer.activeIndex}">
+                <p:tab title="Personal Information" transient="true">
+                    <p:panel header="Personal info:Part 1">
+                        <h:panelGrid columns="2" cellpadding="100" >
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel for="firstnamepersian" value="Firstname(Persian):" />
+                                <p:inputText id="firstnamepersian" value="#{addCustomer.personal.don361name}"  label="Firstname(Persian)">
+                                </p:inputText>
+                                <p:outputLabel for="firstname" value="Firstname:" />
+                                <p:inputText id="firstname" value="#{addCustomer.personal.don361enName}"  label="Firstname">
+                                </p:inputText>
+                                <p:outputLabel for="lastnamepersian" value="Lasttname(Persian):" />
+                                <p:inputText id="lastnamepersian" value="#{addCustomer.personal.don361familyName}"  label="Lastname(Persian)">
+                                </p:inputText>
+                                <p:outputLabel for="lastname" value="Lastname:" />
+                                <p:inputText id="lastname" value="#{addCustomer.personal.don361enFamily}"  label="Lastname">
+                                </p:inputText>
+                                <p:outputLabel for="sex" value="Sex:" />
+                                <p:selectOneMenu id="sex" value="#{addCustomer.rashtiSex}">
+
+                                    <f:selectItem itemLabel="Male" itemValue="Male" />
+                                    <f:selectItem itemLabel="Female" itemValue="Female" />
+                                </p:selectOneMenu>
+                                <p:outputLabel for="prefix" value="Prefix:" />
+                                <p:inputText id="prefix" value="#{addCustomer.personal.don361prefix}"  label="Prefix">
+                                </p:inputText>
+                                <p:outputLabel for="fathernamepersian" value="FatherName(Persian):" />
+                                <p:inputText id="fathernamepersian" value="#{addCustomer.personal.don361fHName}"  label="fathernamepersian">
+                                </p:inputText>
+                                <p:outputLabel for="fathername" value="FatherName:" />
+                                <p:inputText id="fathername" value="#{addCustomer.personal.don361enFHName}"  label="Fathername">
+                                </p:inputText>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="2" cellpadding="10" >
+
+
+                                <p:outputLabel for="birthdate" value="Birthdate:" />
+                                <p:calendar id="birthdate" value="#{addCustomer.personal.don361birthday}" locale="de" navigator="true" pattern="yyyy-MMM-dd" >
+                                    <f:convertDateTime pattern="yyyy-MMM-dd"/>
+                                </p:calendar>
+
+                                <p:outputLabel for="melliCodenum" value="MelliCode Number:" />
+                                <p:inputText id="melliCodenum" value="#{addCustomer.personal.don361birthCerNo}"  label="melliCodeNum">
+                                </p:inputText>
+                                <p:outputLabel for="Passportnum" value="Passport Number:" />
+                                <p:inputText id="Passportnum" value="#{addCustomer.personal.don361passportNo}"  label="passportNum">
+                                </p:inputText>
+                                <p:outputLabel for="nationality" value="Nationality:" />
+                                <p:inputText id="nationality" value="#{addCustomer.personal.don361birthPlace}"  label="nationality">
+                                </p:inputText>
+
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                    <br/>
+                    <p:panel header="Personal info:Part 2">
+                        <h:panelGrid columns="2" cellpadding="100">
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel for="email" value="Email:" />
+                                <p:inputText id="email" value="#{addCustomer.personal.don361personalMail}"  label="Email:">
+                                </p:inputText>
+                                <p:outputLabel for="mobilenum" value="Mobile Number:" />
+                                <p:inputText id="mobilenum" value="#{addCustomer.personal.don361mobileNumber}"  label="MobileNumber">
+                                </p:inputText>
+                                <p:outputLabel for="homeNumber" value="Home Number:" />
+                                <p:inputText id="homeNumber" value="#{addCustomer.personal.don361homeTel}"  label="homeNumber">
+                                </p:inputText>
+                                <p:outputLabel for="homefax" value="Home Fax:" />
+                                <p:inputText id="homefax" value="#{addCustomer.personal.don361homeFax}"  label="homeFax">
+                                </p:inputText>
+                                <p:outputLabel value="Passport Scan:" />
+                                <p:fileUpload value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
+                                              sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                <p:outputLabel  value="Shenasname Scan:" />
+                                <p:button  value="Browse"></p:button>
+                                <p:outputLabel  value="Photo Scan:" />
+                                <p:button  value="Browse"></p:button>
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:outputLabel for="homepostalcode" value="Postal Code(Home):" />
+                                <p:inputText id="homepostalcode" value="#{addCustomer.personal.don361postalCode}"  label="postal code(home)">
+                                </p:inputText>
+                                <p:outputLabel value="Home Address(Persian):" />
+                                <p:inputTextarea rows="6" id="homeaddresspersian" value="#{addCustomer.personal.don361homeAddress}"   cols="33" />
+
+
+                                <p:outputLabel for="hobbies" value="Hobbies:" />
+                                <p:inputTextarea rows="6" id="hobbies" value="#{addCustomer.personal.don361hobbies}"   cols="33" />
+                                <p:outputLabel for="comments" value="Comments:" />
+                                <p:inputTextarea rows="6" id="comments" value="#{addCustomer.personal.don361description}" cols="33" />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="Educational Information" transient="true">
+
+                    <p:panel header="tabular edu info">
+                        <p:dataTable id="pastInfo" var="past" value="#{addCustomer.customer.donPastList}" editable="true" style="margin-bottom:20px" emptyMessage="There is no past educational information for this customer">
+                            <f:facet name="header">
+                                <p:commandButton value="Add"  action="#{addCustomer.addPast()}" icon="ui-icon-plus" />
+                                Past Educational Information
+                            </f:facet>
+
+                            <p:ajax event="rowEdit" listener="#{addCustomer.onRowEdit}" update="@none" />
+                            <p:ajax event="rowEditCancel" listener="#{addCustomer.onRowCancel}" update="@none" />
+
+                            <p:column headerText="Field">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{past.don365eduField}" /></f:facet>
+                                    <f:facet name="input"><p:inputText id="modelInput" value="#{past.don365eduField}" style="width: 100%;" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Degree">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{past.don365degree}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{past.don365degree}" style="width: 100%;">
+                                            <f:selectItem itemLabel="Bachelor" itemValue="Bachelor" />
+                                            <f:selectItem itemLabel="Master" itemValue="Master"/>
+                                            <f:selectItem itemLabel="Phd" itemValue="Phd"/>
+                                            
+                                        </p:selectOneMenu></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Graduation Date">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{past.don365gradiationDate}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{past.don365gradiationDate}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="University name">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{past.don365uniName}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{past.don365uniName}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="University City">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{past.don365uniCity}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{past.don365uniCity}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                        </p:dataTable>    
+                    </p:panel>
+
+
+
+
+
+
+
+
+
+
+                    <p:panel header="Idaq educational info">
+                        <h:panelGrid columns="2" cellpadding="10" id="idaqEduInfo">
+                            <h:panelGrid columns="2" cellpadding="10" >
+                                <p:outputLabel value="Idaq info" ></p:outputLabel>
+
+                                <p:outputLabel value="Program Name:" />
+                                <p:selectOneMenu id="programName" value="#{addCustomer.programEdu.don364programName}">
+
+                                    <f:selectItem itemLabel="BF1" itemValue="BF1" />
+                                    <f:selectItem itemLabel="BF2" itemValue="BF2" />
+                                    <f:selectItem itemLabel="BF3" itemValue="BF3" />
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Program Status:" />
+                                <p:selectOneMenu id="programStatus" value="#{addCustomer.programEdu.don364masterThesis}">
+
+                                    <f:selectItem itemLabel="Currently" itemValue="Currently" />
+                                    <f:selectItem itemLabel="Passed" itemValue="Passed" />
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="Thesis Subject:" />
+                                <p:inputText id="thesisSubject" value="#{addCustomer.programEdu.don364thesisSubject}" ></p:inputText>
+                                <p:outputLabel value="Thesis SuperVisor:" />
+                                <p:inputText id="thesisSuperVisor" value="#{addCustomer.programEdu.don364supervisor}" ></p:inputText>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10" >
+                                <p:outputLabel value="First Payment:" />
+                                <p:selectBooleanCheckbox itemLabel="paid" value="#{addCustomer.rashtiFirstPayment}" />
+                                <p:outputLabel value="Second Payment:" />
+                                <p:selectBooleanCheckbox itemLabel="paid" value="#{addCustomer.rashtisecondPayment}" />
+                                <p:outputLabel value="Other Payments:" />
+                                <p:inputTextarea rows="6" id="otherPayments" value="#{addCustomer.programEdu.don364paymentDesc}" cols="33" />
+                                <p:commandButton value="Add new info"  actionListener="#{addCustomer.addIdaqInfo}"  />
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="Business Information" transient="true"    >
+                    <p:panel header="Bussiness Information">
+                        <h:panelGrid columns="2" cellpadding="10" >
+                            <h:panelGrid columns="2" cellpadding="10" >
+                                <p:outputLabel value="Bussiness Information" />
+                                <p:commandButton value="Add new info" actionListener="#{addCustomer.addNewBussiness}"  />
+                                <p:outputLabel value="Bussiness Name:" />
+                                <p:inputText id="bussinessName" value="#{addCustomer.bussiness.don368bussName}"></p:inputText>
+                                <p:outputLabel value="Position:" />
+                                <p:inputText id="position" value="#{addCustomer.bussiness.don368position}"></p:inputText>
+                                <p:outputLabel value="Address:" />
+                                <p:inputTextarea rows="6" id="bussinessAddress" value="#{addCustomer.bussiness.don368bussAddress}" cols="33" />
+
+                                <p:outputLabel value="Office Tel:" />
+                                <p:inputText id="officeTel" value="#{addCustomer.bussiness.don368officeTel}"></p:inputText>
+                                <p:outputLabel value="Office Fax:" />
+                                <p:inputText id="officeFax" value="#{addCustomer.bussiness.don368fax}"></p:inputText>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10" >
+                                <p:outputLabel value="BussinessField:" />
+                                <p:selectOneMenu id="bussinessField" value="#{addCustomer.bussiness.don368bussField}">
+
+                                    <f:selectItem itemLabel="Food Industery" itemValue="Food Industery" />
+                                    <f:selectItem itemLabel="Fabric Industery" itemValue="Fabric Industery" />
+                                    <f:selectItem itemLabel="Civil Engineering" itemValue="Civil Engineering" />
+                                </p:selectOneMenu> 
+                                <p:outputLabel value="Website:" />
+                                <p:inputText id="website" value="#{addCustomer.bussiness.don368bussWebsite}"></p:inputText>
+                                <p:outputLabel value="Bussiness Email:" />
+                                <p:inputText id="bussinessEmail" value="#{addCustomer.bussiness.don368bussMail}"></p:inputText>
+                                <p:outputLabel value="Bussiness Tags:" />
+                                <p:inputText id="bussinessTags" value="#{addCustomer.bussiness.don368tag}"></p:inputText>
+                                <p:outputLabel value="Bussiness Branches:" />
+                                <p:inputText id="bussinessBranches" value="#{addCustomer.bussiness.don368branchComp}"></p:inputText>
+                                <p:outputLabel value="Secretary Name:" />
+                                <p:inputText id="secretaryName" value="#{addCustomer.bussiness.don368secretaryName}"></p:inputText>
+                                <p:outputLabel value="Secretary Tel:" />
+                                <p:inputText id="secretaryTel" value="#{addCustomer.bussiness.don368secretaryTel}"></p:inputText>
+                                <p:outputLabel value="Bussiness Description:" />
+                                <p:inputText id="bussinessDescp" value="#{addCustomer.bussiness.don368bussDescreption}"></p:inputText>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel header="Customer Value">
+                        <h:panelGrid columns="2" cellpadding="10" >
+                            <h:panelGrid columns="2" cellpadding="10" >
+                                <p:outputLabel value="Financial Status:" />
+                                <p:selectOneMenu id="financialStatus" value="#{addCustomer.customer.don360customerEcoRate}">
+                                    <f:selectItem itemLabel="Select One" itemValue="" />
+                                    <f:selectItem itemLabel="1" itemValue="1" />
+                                    <f:selectItem itemLabel="2" itemValue="2" />
+                                    <f:selectItem itemLabel="3" itemValue="3" />
+                                    <f:selectItem itemLabel="4" itemValue="4" />
+                                </p:selectOneMenu>     
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10" >
+                                <p:outputLabel value="Customer Importance:" />
+                                <p:selectOneMenu id="customerImportance" value="#{addCustomer.customer.don360customerRate}">
+                                    <f:selectItem itemLabel="A" itemValue="A" />
+                                    <f:selectItem itemLabel="B" itemValue="B" />
+                                    <f:selectItem itemLabel="C" itemValue="C" />
+                                </p:selectOneMenu>     
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+            <p:commandButton value="Submit" action="#{addCustomer.commitCustomer()}" ajax="false" type="submit"/>
+            <p:commandButton value="Cancel" action="#{addCustomer.cancelCustomer()}" ajax="false" type="submit"/>
+        </h:form>
+    </h:body>
+</f:view>

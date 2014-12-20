@@ -9,12 +9,40 @@ public abstract class AbstractDao {
 	private EntityManager em;
 //	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPASamplePU");
 
-	protected AbstractDao() {		
+	protected AbstractDao() {
+          
 //		em = emf.createEntityManager();
 	}
 
 	public EntityManager getEntityManager() {
 		return em;
 	}
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
 }
