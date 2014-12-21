@@ -8,8 +8,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head/>
     <h:body>
+
         <h:form id="form"  >
-            <f:event type="preRenderView" listener="#{addCustomer.initialize()}"/>
+            <f:event type="preRenderComponent" listener="#{addCustomer.initialize()}"/>    
 
             <p:tabView  activeIndex="#{addCustomer.activeIndex}">
                 <p:tab title="Personal Information" transient="true">
@@ -109,11 +110,10 @@
                     </p:panel>
                 </p:tab>
                 <p:tab title="Educational Information" transient="true">
-
-                    <p:panel header="tabular edu info">
-                        <p:dataTable id="pastInfo" var="past" value="#{addCustomer.customer.donPastList}" editable="true" style="margin-bottom:20px" emptyMessage="There is no past educational information for this customer">
+                    <p:panel header="tabular tohkhom edu info">
+                        <p:dataTable id="pastInfo" var="past" value="#{addCustomer.listPast}" editable="true" style="margin-bottom:20px" emptyMessage="There is no past educational information for this customer">
                             <f:facet name="header">
-                                <p:commandButton value="Add"  action="#{addCustomer.addPast()}" icon="ui-icon-plus" />
+                                <p:commandButton value="Add"  action="#{addCustomer.addPast()}" icon="ui-icon-plus" update="pastInfo" />
                                 Past Educational Information
                             </f:facet>
 
@@ -135,7 +135,7 @@
                                             <f:selectItem itemLabel="Bachelor" itemValue="Bachelor" />
                                             <f:selectItem itemLabel="Master" itemValue="Master"/>
                                             <f:selectItem itemLabel="Phd" itemValue="Phd"/>
-                                            
+
                                         </p:selectOneMenu></f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -162,7 +162,13 @@
 
                             <p:column style="width:32px">
                                 <p:rowEditor />
+
                             </p:column>
+                            <p:column style="width:32px">
+
+                                <p:commandButton action="#{addCustomer.deletePastRow(past)}" value="X" style="background: transparent; border: transparent;" update="pastInfo" process="@form" />
+                            </p:column>
+
                         </p:dataTable>    
                     </p:panel>
 
@@ -179,7 +185,6 @@
                         <h:panelGrid columns="2" cellpadding="10" id="idaqEduInfo">
                             <h:panelGrid columns="2" cellpadding="10" >
                                 <p:outputLabel value="Idaq info" ></p:outputLabel>
-
                                 <p:outputLabel value="Program Name:" />
                                 <p:selectOneMenu id="programName" value="#{addCustomer.programEdu.don364programName}">
 
@@ -205,7 +210,6 @@
                                 <p:selectBooleanCheckbox itemLabel="paid" value="#{addCustomer.rashtisecondPayment}" />
                                 <p:outputLabel value="Other Payments:" />
                                 <p:inputTextarea rows="6" id="otherPayments" value="#{addCustomer.programEdu.don364paymentDesc}" cols="33" />
-                                <p:commandButton value="Add new info"  actionListener="#{addCustomer.addIdaqInfo}"  />
                             </h:panelGrid>
                         </h:panelGrid>
                     </p:panel>

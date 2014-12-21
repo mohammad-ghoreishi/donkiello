@@ -15,12 +15,10 @@ import com.donkiello.model.entity.common.DonUsers;
 import com.donkiello.model.service.common.IDonCustomerService;
 import com.donkiello.utility.JSFUtils;
 import com.donkiello.utility.JndiUtils;
-import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *

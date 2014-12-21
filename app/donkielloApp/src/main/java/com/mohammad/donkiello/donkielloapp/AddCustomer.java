@@ -12,12 +12,12 @@ import com.donkiello.model.entity.common.DonPast;
 import com.donkiello.model.entity.common.DonPersonal;
 import com.donkiello.model.entity.common.DonProgram;
 import com.donkiello.model.service.common.IDonCustomerService;
+import com.donkiello.model.service.common.IDonPastService;
 import com.donkiello.utility.JSFUtils;
 import com.donkiello.utility.JndiUtils;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -35,7 +35,9 @@ public class AddCustomer implements Serializable {
     private List<DonPersonal> listPersonal;
     private List<DonBussiness> listBussiness;
     private List<DonProgram> listProgram;
-    private List<DonPast> listPast;
+    private List<DonPast> listPast = null;
+    private List<DonPast> templistPast = null;
+    private List<DonPast> deletedListPast = null;
     private DonPersonal personal;
     private DonBussiness bussiness;
     private DonPast pastEdu;
@@ -46,23 +48,26 @@ public class AddCustomer implements Serializable {
     private String rashtiFirstPayment = "true";
     private String rashtisecondPayment = "true";
     private String tempDate = "";
-
     private File passScan;
     private Byte[] bps;
-
+    private IDonPastService donPastService;
     private IDonCustomerService getService() {
-
+        
         return customerService = (IDonCustomerService) JndiUtils.getModelEjb("DonCustomerService");
     }
 
     public AddCustomer() {
+        donPastService = (IDonPastService) JndiUtils.getModelEjb("DonPastService");
     }
 
     public void initialize() {
-        listBussiness = new ArrayList<DonBussiness>();
-        listPast = new ArrayList<DonPast>();
-        listPersonal = new ArrayList<DonPersonal>();
-        listProgram = new ArrayList<DonProgram>();
+
+        if (null == listPast) {
+            listBussiness = new ArrayList<DonBussiness>();
+            listPast = new ArrayList<DonPast>();
+            listPersonal = new ArrayList<DonPersonal>();
+            listProgram = new ArrayList<DonProgram>();
+        }
         getService();
         System.out.println("in add customer serializable");
         customer = (DonCustomer) JSFUtils.getFromSession("selectedCustomer");
@@ -76,7 +81,11 @@ public class AddCustomer implements Serializable {
                 pastEdu = customer.getDonPastList().get(0);
                 programEdu = customer.getDonProgramList().get(0);
                 bussiness = customer.getDonBussinessList().get(0);
-
+                templistPast = customer.getDonPastList();
+                
+                for(DonPast p : templistPast)
+                    if(p.getDeleted().equals(BaseEntity.DELETE_NO))
+                        listPast.add(p);
                 if (customer.getDonPersonalList().get(0).getDon361birthday() != null) {
                     tempDate = customer.getDonPersonalList().get(0).getDon361birthday().toString();
                 }
@@ -121,8 +130,22 @@ public class AddCustomer implements Serializable {
     }
 
     public void addPast() {
-
+        System.out.println("add past method ");
         DonPast t = new DonPast();
+        t.setDon360id(customer);
+        t.setDeleted(BaseEntity.DELETE_NO);
+        listPast.add(t);
+
+    }
+
+    public void deletePastRow(DonPast p) {
+        if (null == deletedListPast) {
+            deletedListPast = new ArrayList<DonPast>();
+        }
+        p.setDeleted(BaseEntity.DELETE_YES);
+        deletedListPast.add(p);
+
+        listPast.remove(p);
 
     }
 
@@ -164,20 +187,45 @@ public class AddCustomer implements Serializable {
             programEdu.setDon364secondPayment(BaseEntity.DELETE_NO);
         }
 
+        /// adding father to childs
+        for (DonPast p : listPast) {
+            if (null == p.getDon360id() && null == p.getDeleted()) {
+                System.out.println("jack na");
+                p.setDeleted(BaseEntity.DELETE_NO);
+                p.setDon360id(customer);
+            }
+        }
+        if(null != deletedListPast){
+//           listPast.addAll(deletedListPast);
+       for( DonPast p : deletedListPast)
+           donPastService.remove(p);
+//        System.out.println(deletedListPast.toString());
+        }
+//        System.out.println(listPast.toString());
+
+//        for (DonProgram p : listProgram) {
+//            if (null == p.getDon360id()) {
+//                p.setDeleted(BaseEntity.DELETE_NO);
+//                p.setDon360id(customer);
+//            }
+//        }
         bussiness.setDon360id(customer);
-        pastEdu.setDon360id(customer);
+//        pastEdu.setDon360id(customer);
         personal.setDon360id(customer);
         programEdu.setDon360id(customer);
         programEdu.setDeleted(BaseEntity.DELETE_NO);
         personal.setDeleted(BaseEntity.DELETE_NO);
         bussiness.setDeleted(BaseEntity.DELETE_NO);
-        pastEdu.setDeleted(BaseEntity.DELETE_NO);
+//        pastEdu.setDeleted(BaseEntity.DELETE_NO);
         listBussiness.add(bussiness);
-        listPast.add(pastEdu);
+//        listPast.add(pastEdu);
+
         listPersonal.add(personal);
         listProgram.add(programEdu);
         customer.setDonBussinessList(listBussiness);
         customer.setDonPersonalList(listPersonal);
+//        customer.setDonPastList(null);
+
         customer.setDonPastList(listPast);
         customer.setDonProgramList(listProgram);
         customer.setDeleted(BaseEntity.DELETE_NO);
@@ -200,16 +248,7 @@ public class AddCustomer implements Serializable {
         return "firstPage";
     }
 
-    
-    
-    
-    
-    
-    
-    
     ///Setters And Getters
-    
-    
     public DonCustomer getCustomer() {
         return customer;
     }
@@ -305,6 +344,14 @@ public class AddCustomer implements Serializable {
 
     public void setActiveIndex(int activeIndex) {
         this.activeIndex = activeIndex;
+    }
+
+    public List<DonPast> getListPast() {
+        return listPast;
+    }
+
+    public void setListPast(List<DonPast> listPast) {
+        this.listPast = listPast;
     }
 
 }
