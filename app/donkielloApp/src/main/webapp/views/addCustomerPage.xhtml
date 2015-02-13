@@ -10,8 +10,9 @@
     <h:body>
 
         <h:form id="form"  >
+            <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
             <f:event type="preRenderComponent" listener="#{addCustomer.initialize()}"/>    
-
+            
             <p:tabView  activeIndex="#{addCustomer.activeIndex}">
                 <p:tab title="Personal Information" transient="true">
                     <p:dialog transient="true" header="Car Info" widgetVar="scandialog" dynamic="true" style="position: fixed; top: 10px" position="center" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"   >
@@ -257,7 +258,17 @@
                                         </p:selectOneMenu></f:facet>
                                 </p:cellEditor>
                             </p:column>
-
+                            <p:column headerText="Second Payment">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364secondPayment}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{idaq.don364secondPayment}" style="width: 100%;">
+                                            <f:selectItem itemLabel="Not paid"  itemValue="0" />
+                                            
+                                            <f:selectItem itemLabel="Paid"  itemValue="1"/>
+                                        </p:selectOneMenu></f:facet>
+                                </p:cellEditor>
+                            </p:column>
 
 
 

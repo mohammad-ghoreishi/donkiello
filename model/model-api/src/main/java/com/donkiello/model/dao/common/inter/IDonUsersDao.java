@@ -16,4 +16,5 @@ import com.donkiello.model.exeption.BusinessException;
  */
 public interface IDonUsersDao extends CRUD<DonUsers>{
     public String checkLogin(String username , String password) throws BusinessException;
+    public DonUsers getOnlineUser(String name) throws BusinessException;
 }

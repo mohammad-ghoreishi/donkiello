@@ -9,6 +9,7 @@
     <h:head />
     <h:body>
         <h:form >
+            <f:event type="preRenderView" listener="#{login.viewAction()}"/>
             <p:growl id="growl" />
             <p:panel header="Login">
                 <h:panelGrid cellpadding="5" columns="3">

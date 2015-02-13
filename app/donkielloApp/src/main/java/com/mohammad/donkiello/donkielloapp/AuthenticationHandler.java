@@ -11,10 +11,14 @@ import com.donkiello.model.service.common.IDonPersonalService;
 import com.donkiello.model.service.common.IDonUsersService;
 import com.donkiello.utility.JSFUtils;
 import com.donkiello.utility.JndiUtils;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,14 +32,15 @@ public class AuthenticationHandler implements Serializable {
     private String userName;
     private String password;
     private IDonUsersService donUsersService;
-    private DonUsers onlineUser;
+    private DonUsers onlineUser = null;
     private List<DonUsers> dus;
     private IDonPersonalService donPersonalService;
     private DonUsers user;
     private String salam;
+
     public AuthenticationHandler() {
         user = new DonUsers();
-        
+
         donUsersService = getDonUsersService();
 //        System.out.println("before get service");
 //        customerService = (IDonCustomerService) JndiUtils.getModelEjb("DonCustomerService");
@@ -44,6 +49,36 @@ public class AuthenticationHandler implements Serializable {
 //        System.out.println("after get all");
 //         donUsersService.create(user);
     }
+
+    public void viewAction() {
+
+        System.out.println("iniiiiiiiiiiiiiiiiiiiiiiiiit");
+        if(null!= onlineUser){
+                System.out.println("online user is : " + onlineUser.getDon369username());
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect( "views/firstPage.xhtml");
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        
+        }
+        
+    }
+    
+    public void checkSession(){
+    
+        if(null == onlineUser)
+        {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect( "views/notfound.xhtml");
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    
+    }
+    
+    
 
     public String authenticate() {
         try {
@@ -64,8 +99,16 @@ public class AuthenticationHandler implements Serializable {
                     System.out.println("authenticate null");
                     return "";
                 } else {
-                    System.out.println(name);
-                    return "firstPage";
+                    try {
+                        onlineUser = donUsersService.getOnlineUser(donUsersService.checkLogin(userName, password));
+                    } catch (Exception e) {
+
+                        System.out.println(e.getMessage());
+                    } finally {
+                        System.out.println(name);
+                        return "firstPage";
+
+                    }
                 }
 
             }
@@ -97,4 +140,22 @@ public class AuthenticationHandler implements Serializable {
         return (IDonUsersService) JndiUtils.getModelEjb("DonUsersService");
     }
 
+    public DonUsers getUser() {
+        return user;
+    }
+
+    public void setUser(DonUsers user) {
+        this.user = user;
+    }
+
+    public DonUsers getOnlineUser() {
+        return onlineUser;
+    }
+
+    public void setOnlineUser(DonUsers onlineUser) {
+        this.onlineUser = onlineUser;
+    }
+
+    
+    
 }

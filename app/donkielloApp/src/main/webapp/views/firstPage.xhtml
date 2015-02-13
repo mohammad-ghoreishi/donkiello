@@ -10,6 +10,7 @@
 
     <h:body>
         <h:form id="form">
+            <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
             <p:growl id="growl1" showDetail="true"  />
             <p:dataTable id="customerTable" var="customer"  value="#{customerManager.customerList}" widgetVar="customersTable"
                          emptyMessage="No Customers found with given criteria" filteredValue="#{customerManager.filteredCustomers}" paginator="true" rows="10"

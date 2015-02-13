@@ -65,7 +65,7 @@ public class AddCustomer implements Serializable {
     private IDonPastService donPastService;
     private IDonProgramService donProgramService;
     private boolean passScanAvailable;
-
+    private String tmpFirstPayment;
     private IDonCustomerService getService() {
 
         return customerService = (IDonCustomerService) JndiUtils.getModelEjb("DonCustomerService");
@@ -77,7 +77,7 @@ public class AddCustomer implements Serializable {
     }
 
     public void initialize() {
-        passScanAvailable= false;
+        passScanAvailable = false;
 
         if (null == listPast) {
             listBussiness = new ArrayList<DonBussiness>();
@@ -111,6 +111,7 @@ public class AddCustomer implements Serializable {
                     for (DonProgram p : templistIdaq) {
                         if (p.getDeleted().equals(BaseEntity.DELETE_NO)) {
                             listIdaq.add(p);
+                            
                         }
                     }
                 }
@@ -348,13 +349,6 @@ public class AddCustomer implements Serializable {
         this.pastEdu = pastEdu;
     }
 
-//    public DonProgram getProgramEdu() {
-//        return programEdu;
-//    }
-//
-//    public void setProgramEdu(DonProgram programEdu) {
-//        this.programEdu = programEdu;
-//    }
     public String getRashtiSex() {
         return rashtiSex;
     }
@@ -394,9 +388,9 @@ public class AddCustomer implements Serializable {
     public void setPassScan(File passScan) {
         this.passScan = passScan;
         try {
-            this.streamedPassScan = new DefaultStreamedContent( new FileInputStream(passScan));
-            } catch (FileNotFoundException ex) {
-                System.out.println("exception\n" + ex.getMessage());
+            this.streamedPassScan = new DefaultStreamedContent(new FileInputStream(passScan));
+        } catch (FileNotFoundException ex) {
+            System.out.println("exception\n" + ex.getMessage());
         }
     }
 
@@ -439,8 +433,8 @@ public class AddCustomer implements Serializable {
     public void setPassScanAvailable(boolean passScanAvailable) {
         this.passScanAvailable = passScanAvailable;
     }
-    
-    public void setpscan(){
+
+    public void setpscan() {
         this.passScanAvailable = true;
     }
 
@@ -451,5 +445,7 @@ public class AddCustomer implements Serializable {
     public void setStreamedPassScan(StreamedContent streamedPassScan) {
         this.streamedPassScan = streamedPassScan;
     }
+
+    
     
 }

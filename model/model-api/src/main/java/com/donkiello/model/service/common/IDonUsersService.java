@@ -18,5 +18,6 @@ import javax.ejb.Remote;
 @Remote
 public interface IDonUsersService extends IService<DonUsers>{
     public String checkLogin(String username , String password) throws BusinessException;
+    public DonUsers getOnlineUser(String name) throws BusinessException;
     
 }

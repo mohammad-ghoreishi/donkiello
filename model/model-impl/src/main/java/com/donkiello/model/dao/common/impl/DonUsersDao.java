@@ -48,20 +48,25 @@ public class DonUsersDao extends AbstractDao implements IDonUsersDao {
     }
 
     public String checkLogin(String username, String password){
-//        System.out.println("before check login");
         Query query = getEntityManager().createQuery("SELECT c FROM DonUsers c WHERE c.deleted = 0 AND c.don369username=:un AND c.don369password=:pw");
-//        System.out.println("between check login");
         query.setParameter("un", username);
         query.setParameter("pw", password);
         List<DonUsers> users = query.getResultList();
-//        System.out.println("after check login");
         if (users==null || users.size() < 1) {
             return null;
         } else if (users.size() == 1) {
-            return users.get(0).getDon369name();
+            return users.get(0).getDon369username();
         } else {
             return null;
         }
+    }
+    
+    public DonUsers getOnlineUser(String name){
+        
+        Query query = getEntityManager().createQuery("SELECT c FROM DonUsers c WHERE c.deleted = 0 AND c.don369username=:un");
+        query.setParameter("un", name);
+        DonUsers users = (DonUsers) query.getSingleResult();
+        return users;
     }
 
 }
