@@ -53,32 +53,29 @@ public class AuthenticationHandler implements Serializable {
     public void viewAction() {
 
         System.out.println("iniiiiiiiiiiiiiiiiiiiiiiiiit");
-        if(null!= onlineUser){
-                System.out.println("online user is : " + onlineUser.getDon369username());
+        if (null != onlineUser) {
+            System.out.println("online user is : " + onlineUser.getDon369username());
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect( "views/firstPage.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("views/firstPage.xhtml");
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-        
+
         }
-        
+
     }
-    
-    public void checkSession(){
-    
-        if(null == onlineUser)
-        {
+
+    public void checkSession() {
+
+        if (null == onlineUser) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect( "views/notfound.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("views/notfound.xhtml");
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
         }
-    
+
     }
-    
-    
 
     public String authenticate() {
         try {
@@ -120,6 +117,11 @@ public class AuthenticationHandler implements Serializable {
 //        return "";
     }
 
+    public String logout() {
+        onlineUser = null;
+        return "login";
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -156,6 +158,4 @@ public class AuthenticationHandler implements Serializable {
         this.onlineUser = onlineUser;
     }
 
-    
-    
 }

@@ -8,7 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head />
 
-    <h:body>
+    <h:body onload='$(".ui-icon-arrowthick-1-n").css("display" ,"none")'>
         <h:form id="form">
             <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
             <p:growl id="growl1" showDetail="true"  />
@@ -20,14 +20,14 @@
                 <f:facet name="header">
                     <p:commandButton style="float: left" value="Add" icon="ui-icon-plus" action="#{customerManager.addCustomer()}" type="submit" ajax="false"/>
                     <p:commandButton id="toggler" type="link" value="Columns" style="float:right" icon="ui-icon-calculator" />
-                    <p:columnToggler datasource="customerTable" trigger="toggler" />
+                    <p:columnToggler datasource="customerTable" trigger="toggler"  />
                     <p:outputPanel>
-                        <h:outputText value="Search all avaiable fields:" />
+                        <h:outputText value="Search all available fields:" />
                         <p:inputText id="globalFilter" onkeyup="PF('customersTable').filter()" style="width:150px" placeholder="Enter keyword"/>
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column filterBy="#{customer.don360name}" headerText="Name" sortBy="#{customer.don360name}"  filterMatchMode="contains">
+                <p:column  filterBy="#{customer.don360name}" headerText="Name" sortBy="#{customer.don360name}"  filterMatchMode="contains">
                     <h:outputText value="#{customer.don360name}" />
                 </p:column>
 
@@ -44,14 +44,14 @@
                     <h:outputText value="#{customer.don360customerEcoRate}" />
                 </p:column>
 
-                <p:column filterBy="#{customer.don360programs}" headerText="Programms" filterMatchMode="contains">
+                <p:column filterBy="#{customer.don360programs}" headerText="Programs" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360programs}" />
                 </p:column>
-                <p:column filterBy="#{customer.don360bussinessNames}" headerText="Bussiness Name" filterMatchMode="contains">
+                <p:column filterBy="#{customer.don360bussinessNames}" headerText="Business Name" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360bussinessNames}" />
                 </p:column>
 
-                <p:column style="width:32px;text-align: center" >
+                <p:column style="width:32px;text-align: center" exportable="false" >
                     <p:commandButton  icon="ui-icon-close" type="button" title="Delete">
                         <p:confirm/>
                     </p:commandButton>
@@ -66,16 +66,9 @@
             </p:dataTable>
             <h:commandLink>
                 <p:graphicImage name="/images/excel.png" />
-                <p:dataExporter type="xls" target="customerTable" fileName="students" />
+                <p:dataExporter  type="xls" target="customerTable" fileName="students" />
             </h:commandLink>
-
-            <h:commandLink>
-                <p:graphicImage name="/images/pdf.png" />
-                <p:dataExporter type="pdf" target="customerTable" fileName="students" encoding="UTF-8"  pageOnly="true"/>
-            </h:commandLink>
-
-
-
+            <p:commandLink value="Logout #{login.onlineUser.don369name}" action="#{login.logout}" style="float: right; color: #f6a828;" />
         </h:form>
     </h:body>
 </f:view>

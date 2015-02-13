@@ -12,7 +12,7 @@
         <h:form id="form"  >
             <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
             <f:event type="preRenderComponent" listener="#{addCustomer.initialize()}"/>    
-            
+
             <p:tabView  activeIndex="#{addCustomer.activeIndex}">
                 <p:tab title="Personal Information" transient="true">
                     <p:dialog transient="true" header="Car Info" widgetVar="scandialog" dynamic="true" style="position: fixed; top: 10px" position="center" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"   >
@@ -32,8 +32,8 @@
                             </p:panelGrid>
                         </p:outputPanel>
                     </p:dialog>
-                    <p:panel header="Personal info:Part 1">
-                        <h:panelGrid columns="2" cellpadding="100" >
+                    <p:panel header="Personal info:Part 1" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
+                        <h:panelGrid columns="2" cellpadding="20" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10">
                                 <p:outputLabel for="firstnamepersian" value="Firstname(Persian):" />
                                 <p:inputText id="firstnamepersian" value="#{addCustomer.personal.don361name}"  label="Firstname(Persian)">
@@ -47,7 +47,7 @@
                                 <p:outputLabel for="lastname" value="Lastname:" />
                                 <p:inputText id="lastname" value="#{addCustomer.personal.don361enFamily}"  label="Lastname">
                                 </p:inputText>
-                                <p:outputLabel for="sex" value="Sex:" />
+                                <p:outputLabel for="sex" value="Gender:" />
                                 <p:selectOneMenu id="sex" value="#{addCustomer.rashtiSex}">
 
                                     <f:selectItem itemLabel="Male" itemValue="Male" />
@@ -56,12 +56,7 @@
                                 <p:outputLabel for="prefix" value="Prefix:" />
                                 <p:inputText id="prefix" value="#{addCustomer.personal.don361prefix}"  label="Prefix">
                                 </p:inputText>
-                                <p:outputLabel for="fathernamepersian" value="FatherName(Persian):" />
-                                <p:inputText id="fathernamepersian" value="#{addCustomer.personal.don361fHName}"  label="fathernamepersian">
-                                </p:inputText>
-                                <p:outputLabel for="fathername" value="FatherName:" />
-                                <p:inputText id="fathername" value="#{addCustomer.personal.don361enFHName}"  label="Fathername">
-                                </p:inputText>
+
 
                             </h:panelGrid>
 
@@ -69,7 +64,7 @@
 
 
                                 <p:outputLabel for="birthdate" value="Birthdate:" />
-                                <p:calendar id="birthdate" value="#{addCustomer.personal.don361birthday}" locale="de" navigator="true" pattern="yyyy-MMM-dd" >
+                                <p:calendar yearRange="c-60:c+10" id="birthdate" value="#{addCustomer.personal.don361birthday}" locale="de" navigator="true" pattern="yyyy-MMM-dd" >
                                     <f:convertDateTime pattern="yyyy-MMM-dd"/>
                                 </p:calendar>
 
@@ -82,13 +77,19 @@
                                 <p:outputLabel for="nationality" value="Nationality:" />
                                 <p:inputText id="nationality" value="#{addCustomer.personal.don361birthPlace}"  label="nationality">
                                 </p:inputText>
+                                <p:outputLabel for="fathernamepersian" value="FatherName(Persian):" />
+                                <p:inputText id="fathernamepersian" value="#{addCustomer.personal.don361fHName}"  label="fathernamepersian">
+                                </p:inputText>
+                                <p:outputLabel for="fathername" value="FatherName:" />
+                                <p:inputText id="fathername" value="#{addCustomer.personal.don361enFHName}"  label="Fathername">
+                                </p:inputText>
 
                             </h:panelGrid>
                         </h:panelGrid>
                     </p:panel>
                     <br/>
-                    <p:panel header="Personal info:Part 2">
-                        <h:panelGrid columns="2" cellpadding="100">
+                    <p:panel header="Personal info:Part 2" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
+                        <h:panelGrid columns="2" cellpadding="20" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10">
                                 <p:outputLabel for="email" value="Email:" />
                                 <p:inputText id="email" value="#{addCustomer.personal.don361personalMail}"  label="Email:">
@@ -112,9 +113,22 @@
 
                                 </c:if>
                                 <p:outputLabel  value="Shenasname Scan:" />
-                                <p:button  value="Browse"></p:button>
+                                <c:if test="#{!false}">
+                                    <p:fileUpload  value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
+                                                   sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  update="@form"/>
+                                </c:if>
+                                <c:if test="#{false}">
+                                    <p:commandButton   value="Show pic" onclick="PF('scandialog').show()"  />
+
+                                </c:if>
                                 <p:outputLabel  value="Photo Scan:" />
-                                <p:button  value="Browse"></p:button>
+                                <c:if test="#{!false}">
+                                    <p:fileUpload  value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
+                                                   sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  update="@form"/>
+                                </c:if>
+                                <c:if test="#{false}">
+                                    <p:commandButton   value="Show pic" onclick="PF('scandialog').show()"  />
+                                </c:if>
 
                             </h:panelGrid>
                             <h:panelGrid columns="2" cellpadding="10">
@@ -122,13 +136,12 @@
                                 <p:inputText id="homepostalcode" value="#{addCustomer.personal.don361postalCode}"  label="postal code(home)">
                                 </p:inputText>
                                 <p:outputLabel value="Home Address(Persian):" />
-                                <p:inputTextarea rows="6" id="homeaddresspersian" value="#{addCustomer.personal.don361homeAddress}"   cols="33" />
-
+                                <p:inputTextarea rows="2" id="homeaddresspersian" value="#{addCustomer.personal.don361homeAddress}"   cols="20" />
 
                                 <p:outputLabel for="hobbies" value="Hobbies:" />
-                                <p:inputTextarea rows="6" id="hobbies" value="#{addCustomer.personal.don361hobbies}"   cols="33" />
+                                <p:inputTextarea rows="2" id="hobbies" value="#{addCustomer.personal.don361hobbies}"   cols="20" />
                                 <p:outputLabel for="comments" value="Comments:" />
-                                <p:inputTextarea rows="6" id="comments" value="#{addCustomer.personal.don361description}" cols="33" />
+                                <p:inputTextarea rows="2" id="comments" value="#{addCustomer.personal.don361description}" cols="20" />
                             </h:panelGrid>
                         </h:panelGrid>
 
@@ -136,7 +149,7 @@
 
                 </p:tab>
                 <p:tab title="Educational Information" transient="true">
-                    <p:panel header="tabular tohkhom edu info">
+                    <p:panel header="Past edu info">
                         <p:dataTable id="pastInfo" var="past" value="#{addCustomer.listPast}" editable="true" style="margin-bottom:20px" emptyMessage="There is no past educational information for this customer">
                             <f:facet name="header">
                                 <p:commandButton value="Add"  action="#{addCustomer.addPast()}" icon="ui-icon-plus" update="pastInfo" />
@@ -168,7 +181,12 @@
                             <p:column headerText="Graduation Date">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{past.don365gradiationDate}" /></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{past.don365gradiationDate}" style="width:100%" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:calendar yearRange="c-10:c+10"
+                                                    id="graduationdate" value="#{past.don365gradiationDate}"
+                                                    locale="de" navigator="true" pattern="yyyy-MMM-dd" >
+                                            <f:convertDateTime pattern="yyyy-MMM-dd"/>
+                                        </p:calendar></f:facet>
                                 </p:cellEditor>
                             </p:column>
                             <p:column headerText="University name">
@@ -198,16 +216,7 @@
                         </p:dataTable>    
                     </p:panel>
 
-
-
-
-
-
-
-
-
-
-                    <p:panel header="Idaq educational info">
+                    <p:panel header="Idaq edu info">
 
                         <p:dataTable id="eduInfo" var="idaq" value="#{addCustomer.listIdaq}" editable="true" style="margin-bottom:20px" emptyMessage="There is no idaq educational information for this customer">
                             <f:facet name="header">
@@ -218,20 +227,34 @@
                             <p:ajax event="rowEdit" listener="#{addCustomer.onRowEdit}" update="@none" />
                             <p:ajax event="rowEditCancel" listener="#{addCustomer.onRowCancel}" update="@none" />
 
-
                             <p:column headerText="Program Name">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{idaq.don364programName}" /></f:facet>
                                     <f:facet name="input">
                                         <p:selectOneMenu value="#{idaq.don364programName}" style="width: 100%;">
-                                            <f:selectItem itemLabel="Bf1" itemValue="Bf1" />
-                                            <f:selectItem itemLabel="Bf2" itemValue="Bf2"/>
-                                            <f:selectItem itemLabel="MBA123" itemValue="MBA123"/>
+                                            <f:selectItem itemLabel="W1" itemValue="W1" />
+                                            <f:selectItem itemLabel="W2" itemValue="W2" />
+                                            <f:selectItem itemLabel="W3" itemValue="W3" />
+                                            <f:selectItem itemLabel="W4" itemValue="W4" />
+                                            <f:selectItem itemLabel="W5" itemValue="W5" />
+                                            <f:selectItem itemLabel="W6" itemValue="W6" />
+                                            <f:selectItem itemLabel="W7" itemValue="W7" />
+                                            <f:selectItem itemLabel="K1" itemValue="K1" />
+                                            <f:selectItem itemLabel="K2" itemValue="K2" />
+                                            <f:selectItem itemLabel="K3" itemValue="K3" />
+                                            <f:selectItem itemLabel="K4" itemValue="K4" />
+                                            <f:selectItem itemLabel="K5" itemValue="K5" />
+                                            <f:selectItem itemLabel="K6" itemValue="K6" />
+                                            <f:selectItem itemLabel="K7" itemValue="K7" />
+                                            <f:selectItem itemLabel="MF1" itemValue="MF1" />
+                                            <f:selectItem itemLabel="MF2" itemValue="MF2" />
+                                            <f:selectItem itemLabel="JPC1" itemValue="JPC1" />
+                                            <f:selectItem itemLabel="JPC2" itemValue="JPC2" />
+                                            <f:selectItem itemLabel="JPC3" itemValue="JPC3" />
 
                                         </p:selectOneMenu></f:facet>
                                 </p:cellEditor>
                             </p:column>
-
 
                             <p:column headerText="Thesis Subject">
                                 <p:cellEditor>
@@ -264,13 +287,11 @@
                                     <f:facet name="input">
                                         <p:selectOneMenu value="#{idaq.don364secondPayment}" style="width: 100%;">
                                             <f:selectItem itemLabel="Not paid"  itemValue="0" />
-                                            
+
                                             <f:selectItem itemLabel="Paid"  itemValue="1"/>
                                         </p:selectOneMenu></f:facet>
                                 </p:cellEditor>
                             </p:column>
-
-
 
                             <p:column headerText="other Payment">
                                 <p:cellEditor>
@@ -289,22 +310,15 @@
 
                                 <p:commandButton action="#{addCustomer.deleteIdaqRow(idaq)}" value="X" style="background: transparent; border: transparent;" update="eduInfo" process="@form" />
                             </p:column>
-
                         </p:dataTable> 
-
-
-
-
 
                     </p:panel>
                 </p:tab>
                 <p:tab title="Business Information" transient="true"    >
-                    <p:panel header="Bussiness Information">
-                        <h:panelGrid columns="2" cellpadding="10" >
+                    <p:panel header="Business Information" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
+                        <h:panelGrid columns="2" cellpadding="10"  style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10" >
-                                <p:outputLabel value="Bussiness Information" />
-                                <p:commandButton value="Add new info" actionListener="#{addCustomer.addNewBussiness}"  />
-                                <p:outputLabel value="Bussiness Name:" />
+                                <p:outputLabel value="Business Name:" />
                                 <p:inputText id="bussinessName" value="#{addCustomer.bussiness.don368bussName}"></p:inputText>
                                 <p:outputLabel value="Position:" />
                                 <p:inputText id="position" value="#{addCustomer.bussiness.don368position}"></p:inputText>
@@ -317,7 +331,7 @@
                                 <p:inputText id="officeFax" value="#{addCustomer.bussiness.don368fax}"></p:inputText>
                             </h:panelGrid>
                             <h:panelGrid columns="2" cellpadding="10" >
-                                <p:outputLabel value="BussinessField:" />
+                                <p:outputLabel value="BusinessField:" />
                                 <p:selectOneMenu id="bussinessField" value="#{addCustomer.bussiness.don368bussField}">
 
                                     <f:selectItem itemLabel="Food Industery" itemValue="Food Industery" />
@@ -326,27 +340,27 @@
                                 </p:selectOneMenu> 
                                 <p:outputLabel value="Website:" />
                                 <p:inputText id="website" value="#{addCustomer.bussiness.don368bussWebsite}"></p:inputText>
-                                <p:outputLabel value="Bussiness Email:" />
+                                <p:outputLabel value="Business Email:" />
                                 <p:inputText id="bussinessEmail" value="#{addCustomer.bussiness.don368bussMail}"></p:inputText>
-                                <p:outputLabel value="Bussiness Tags:" />
+                                <p:outputLabel value="Business Tags:" />
                                 <p:inputText id="bussinessTags" value="#{addCustomer.bussiness.don368tag}"></p:inputText>
-                                <p:outputLabel value="Bussiness Branches:" />
+                                <p:outputLabel value="Business Branches:" />
                                 <p:inputText id="bussinessBranches" value="#{addCustomer.bussiness.don368branchComp}"></p:inputText>
                                 <p:outputLabel value="Secretary Name:" />
                                 <p:inputText id="secretaryName" value="#{addCustomer.bussiness.don368secretaryName}"></p:inputText>
                                 <p:outputLabel value="Secretary Tel:" />
                                 <p:inputText id="secretaryTel" value="#{addCustomer.bussiness.don368secretaryTel}"></p:inputText>
-                                <p:outputLabel value="Bussiness Description:" />
+                                <p:outputLabel value="Business Description:" />
                                 <p:inputText id="bussinessDescp" value="#{addCustomer.bussiness.don368bussDescreption}"></p:inputText>
                             </h:panelGrid>
                         </h:panelGrid>
                     </p:panel>
-                    <p:panel header="Customer Value">
-                        <h:panelGrid columns="2" cellpadding="10" >
+                    <p:panel header="Customer Value" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
+                        <h:panelGrid columns="2" cellpadding="10" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10" >
                                 <p:outputLabel value="Financial Status:" />
                                 <p:selectOneMenu id="financialStatus" value="#{addCustomer.customer.don360customerEcoRate}">
-                                    <f:selectItem itemLabel="Select One" itemValue="" />
+
                                     <f:selectItem itemLabel="1" itemValue="1" />
                                     <f:selectItem itemLabel="2" itemValue="2" />
                                     <f:selectItem itemLabel="3" itemValue="3" />
@@ -365,8 +379,8 @@
                     </p:panel>
                 </p:tab>
             </p:tabView>
-            <p:commandButton value="Submit" action="#{addCustomer.commitCustomer()}" ajax="false" type="submit"/>
-            <p:commandButton value="Cancel" action="#{addCustomer.cancelCustomer()}" ajax="false" type="submit"/>
+            <p:commandButton value="Submit" style="float: right;" action="#{addCustomer.commitCustomer()}" ajax="false" type="submit"/>
+            <p:commandButton value="Cancel" style="float: right;" action="#{addCustomer.cancelCustomer()}" ajax="false" type="submit"/>
 
         </h:form>
     </h:body>
