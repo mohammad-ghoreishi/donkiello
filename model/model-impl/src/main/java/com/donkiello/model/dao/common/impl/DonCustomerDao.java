@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.donkiello.model.dao.common.impl;
 
 import com.donkiello.model.dao.base.AbstractDao;
@@ -20,11 +19,10 @@ import javax.persistence.Query;
  * @author Mohammad
  */
 @Stateless
-public class DonCustomerDao extends AbstractDao implements IDonCustomerDao{
-    
-    
-    public DonCustomerDao(){
-    super();
+public class DonCustomerDao extends AbstractDao implements IDonCustomerDao {
+
+    public DonCustomerDao() {
+        super();
     }
 
     public void create(DonCustomer t) {
@@ -39,18 +37,17 @@ public class DonCustomerDao extends AbstractDao implements IDonCustomerDao{
         getEntityManager().merge(t);
     }
 
-    public void remove(DonCustomer t){
+    public void remove(DonCustomer t) {
         try {
 //            System.out.println("in dao before remove persist");
-        t.setDeleted(BaseEntity.DELETE_YES);
+            t.setDeleted(BaseEntity.DELETE_YES);
 //        System.out.println("before persist");
-        getEntityManager().merge(t);
+            getEntityManager().merge(t);
 //        System.out.println("after persist");
         } catch (Exception e) {
             System.out.println("exception\n" + e.getMessage());
         }
-        
-        
+
     }
 
     public List<DonCustomer> getAll() {
@@ -62,5 +59,5 @@ public class DonCustomerDao extends AbstractDao implements IDonCustomerDao{
         System.out.println("after query");
         return customers;
     }
-    
+
 }

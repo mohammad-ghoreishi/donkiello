@@ -13,18 +13,8 @@
             <p:growl id="growl1" showDetail="true"  />
             <p:dataTable id="customerTable" var="customer"  value="#{customerManager.customerList}" widgetVar="customersTable"
                          emptyMessage="No Customers found with given criteria" filteredValue="#{customerManager.filteredCustomers}" paginator="true" rows="10"
-                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} "
                          rowsPerPageTemplate="5,10,15" sortMode="multiple"  draggableColumns="true" selectionMode="single" rowKey="#{customer.don360id}" selection="#{customerManager.selectedCustomer}" >
-                <!-- 
-                columns:
-                name
-                tell 
-                programs *
-                class
-                payment status
-                -->
-<!--                <p:ajax async="false" event="rowDblselect" listener="#{customerManager.viewCustomer()}" 
-                        update="@none" process="@form"  rendered="@none"/>-->
 
                 <f:facet name="header">
                     <p:commandButton style="float: left" value="Add" icon="ui-icon-plus" action="#{customerManager.addCustomer()}" type="submit" ajax="false"/>
@@ -73,7 +63,15 @@
                 </p:column>
 
             </p:dataTable>
+            <h:commandLink>
+                <p:graphicImage name="/images/excel.png" />
+                <p:dataExporter type="xls" target="customerTable" fileName="students" />
+            </h:commandLink>
 
+            <h:commandLink>
+                <p:graphicImage name="/images/pdf.png" />
+                <p:dataExporter type="pdf" target="customerTable" fileName="students" encoding="UTF-8"  pageOnly="true"/>
+            </h:commandLink>
 
 
 

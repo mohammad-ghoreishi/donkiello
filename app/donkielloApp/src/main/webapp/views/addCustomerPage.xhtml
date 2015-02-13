@@ -14,6 +14,23 @@
 
             <p:tabView  activeIndex="#{addCustomer.activeIndex}">
                 <p:tab title="Personal Information" transient="true">
+                    <p:dialog transient="true" header="Car Info" widgetVar="scandialog" dynamic="true" style="position: fixed; top: 10px" position="center" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"   >
+                        <p:outputPanel id="dialogf" style="text-align:center; ">
+                            <p:panelGrid  columns="2"  columnClasses="label,value" >
+                                <f:facet name="header">
+                                    <p:graphicImage value="#{addCustomer.streamedPassScan}"/> 
+                                </f:facet>
+
+                                <h:outputText value="Id:" />
+                                <h:outputText value="id" />
+
+                                <h:outputText value="Year" />
+                                <h:outputText value="year" />
+
+
+                            </p:panelGrid>
+                        </p:outputPanel>
+                    </p:dialog>
                     <p:panel header="Personal info:Part 1">
                         <h:panelGrid columns="2" cellpadding="100" >
                             <h:panelGrid columns="2" cellpadding="10">
@@ -85,8 +102,14 @@
                                 <p:inputText id="homefax" value="#{addCustomer.personal.don361homeFax}"  label="homeFax">
                                 </p:inputText>
                                 <p:outputLabel value="Passport Scan:" />
-                                <p:fileUpload value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
-                                              sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                <c:if test="#{!addCustomer.passScanAvailable}">
+                                    <p:fileUpload rendered="#{!addCustomer.passScanAvailable}" value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
+                                                  sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" oncomplete="#{addCustomer.setpscan()}" update="@form"/>
+                                </c:if>
+                                <c:if test="#{addCustomer.passScanAvailable}">
+                                    <p:commandButton   value="Show pic" onclick="PF('scandialog').show()"  />
+
+                                </c:if>
                                 <p:outputLabel  value="Shenasname Scan:" />
                                 <p:button  value="Browse"></p:button>
                                 <p:outputLabel  value="Photo Scan:" />
@@ -107,7 +130,9 @@
                                 <p:inputTextarea rows="6" id="comments" value="#{addCustomer.personal.don361description}" cols="33" />
                             </h:panelGrid>
                         </h:panelGrid>
+
                     </p:panel>
+
                 </p:tab>
                 <p:tab title="Educational Information" transient="true">
                     <p:panel header="tabular tohkhom edu info">
@@ -182,36 +207,84 @@
 
 
                     <p:panel header="Idaq educational info">
-                        <h:panelGrid columns="2" cellpadding="10" id="idaqEduInfo">
-                            <h:panelGrid columns="2" cellpadding="10" >
-                                <p:outputLabel value="Idaq info" ></p:outputLabel>
-                                <p:outputLabel value="Program Name:" />
-                                <p:selectOneMenu id="programName" value="#{addCustomer.programEdu.don364programName}">
 
-                                    <f:selectItem itemLabel="BF1" itemValue="BF1" />
-                                    <f:selectItem itemLabel="BF2" itemValue="BF2" />
-                                    <f:selectItem itemLabel="BF3" itemValue="BF3" />
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Program Status:" />
-                                <p:selectOneMenu id="programStatus" value="#{addCustomer.programEdu.don364masterThesis}">
+                        <p:dataTable id="eduInfo" var="idaq" value="#{addCustomer.listIdaq}" editable="true" style="margin-bottom:20px" emptyMessage="There is no idaq educational information for this customer">
+                            <f:facet name="header">
+                                <p:commandButton value="Add"  action="#{addCustomer.addIdaq()}" icon="ui-icon-plus" update="eduInfo" />
+                                Idaq Educational Information
+                            </f:facet>
 
-                                    <f:selectItem itemLabel="Currently" itemValue="Currently" />
-                                    <f:selectItem itemLabel="Passed" itemValue="Passed" />
-                                </p:selectOneMenu> 
-                                <p:outputLabel value="Thesis Subject:" />
-                                <p:inputText id="thesisSubject" value="#{addCustomer.programEdu.don364thesisSubject}" ></p:inputText>
-                                <p:outputLabel value="Thesis SuperVisor:" />
-                                <p:inputText id="thesisSuperVisor" value="#{addCustomer.programEdu.don364supervisor}" ></p:inputText>
-                            </h:panelGrid>
-                            <h:panelGrid columns="2" cellpadding="10" >
-                                <p:outputLabel value="First Payment:" />
-                                <p:selectBooleanCheckbox itemLabel="paid" value="#{addCustomer.rashtiFirstPayment}" />
-                                <p:outputLabel value="Second Payment:" />
-                                <p:selectBooleanCheckbox itemLabel="paid" value="#{addCustomer.rashtisecondPayment}" />
-                                <p:outputLabel value="Other Payments:" />
-                                <p:inputTextarea rows="6" id="otherPayments" value="#{addCustomer.programEdu.don364paymentDesc}" cols="33" />
-                            </h:panelGrid>
-                        </h:panelGrid>
+                            <p:ajax event="rowEdit" listener="#{addCustomer.onRowEdit}" update="@none" />
+                            <p:ajax event="rowEditCancel" listener="#{addCustomer.onRowCancel}" update="@none" />
+
+
+                            <p:column headerText="Program Name">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364programName}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{idaq.don364programName}" style="width: 100%;">
+                                            <f:selectItem itemLabel="Bf1" itemValue="Bf1" />
+                                            <f:selectItem itemLabel="Bf2" itemValue="Bf2"/>
+                                            <f:selectItem itemLabel="MBA123" itemValue="MBA123"/>
+
+                                        </p:selectOneMenu></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+                            <p:column headerText="Thesis Subject">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364thesisSubject}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{idaq.don364thesisSubject}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="Supervisor">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364supervisor}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{idaq.don364supervisor}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column headerText="First Payment">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364firstPayment}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{idaq.don364firstPayment}" style="width: 100%;">
+                                            <f:selectItem itemLabel="Not paid" itemValue="0" />
+                                            <f:selectItem itemLabel="Paid" itemValue="1"/>
+
+                                        </p:selectOneMenu></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+
+
+                            <p:column headerText="other Payment">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364paymentDesc}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{idaq.don364paymentDesc}" style="width:100%" /></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+
+
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+
+                            </p:column>
+                            <p:column style="width:32px">
+
+                                <p:commandButton action="#{addCustomer.deleteIdaqRow(idaq)}" value="X" style="background: transparent; border: transparent;" update="eduInfo" process="@form" />
+                            </p:column>
+
+                        </p:dataTable> 
+
+
+
+
+
                     </p:panel>
                 </p:tab>
                 <p:tab title="Business Information" transient="true"    >
@@ -283,6 +356,7 @@
             </p:tabView>
             <p:commandButton value="Submit" action="#{addCustomer.commitCustomer()}" ajax="false" type="submit"/>
             <p:commandButton value="Cancel" action="#{addCustomer.cancelCustomer()}" ajax="false" type="submit"/>
+
         </h:form>
     </h:body>
 </f:view>

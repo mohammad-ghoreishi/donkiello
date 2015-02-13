@@ -13,15 +13,22 @@ import com.donkiello.model.entity.common.DonPersonal;
 import com.donkiello.model.entity.common.DonProgram;
 import com.donkiello.model.service.common.IDonCustomerService;
 import com.donkiello.model.service.common.IDonPastService;
+import com.donkiello.model.service.common.IDonProgramService;
 import com.donkiello.utility.JSFUtils;
 import com.donkiello.utility.JndiUtils;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -34,39 +41,49 @@ public class AddCustomer implements Serializable {
     private DonCustomer customer = null;
     private List<DonPersonal> listPersonal;
     private List<DonBussiness> listBussiness;
-    private List<DonProgram> listProgram;
+//    private List<DonProgram> listProgram;
     private List<DonPast> listPast = null;
     private List<DonPast> templistPast = null;
     private List<DonPast> deletedListPast = null;
+    private List<DonProgram> listIdaq = null;
+    private List<DonProgram> templistIdaq = null;
+    private List<DonProgram> deletedListIdaq = null;
+
     private DonPersonal personal;
     private DonBussiness bussiness;
     private DonPast pastEdu;
-    private DonProgram programEdu;
+//    private DonProgram programEdu;
     private int activeIndex, selectedIndex;
     private IDonCustomerService customerService;
     private String rashtiSex = "Male";
-    private String rashtiFirstPayment = "true";
-    private String rashtisecondPayment = "true";
+//    private String rashtiFirstPayment = "true";
+//    private String rashtisecondPayment = "true";
     private String tempDate = "";
     private File passScan;
+    private StreamedContent streamedPassScan;
     private Byte[] bps;
     private IDonPastService donPastService;
+    private IDonProgramService donProgramService;
+    private boolean passScanAvailable;
+
     private IDonCustomerService getService() {
-        
+
         return customerService = (IDonCustomerService) JndiUtils.getModelEjb("DonCustomerService");
     }
 
     public AddCustomer() {
         donPastService = (IDonPastService) JndiUtils.getModelEjb("DonPastService");
+        donProgramService = (IDonProgramService) JndiUtils.getModelEjb("DonProgramService");
     }
 
     public void initialize() {
+        passScanAvailable= false;
 
         if (null == listPast) {
             listBussiness = new ArrayList<DonBussiness>();
             listPast = new ArrayList<DonPast>();
             listPersonal = new ArrayList<DonPersonal>();
-            listProgram = new ArrayList<DonProgram>();
+            listIdaq = new ArrayList<DonProgram>();
         }
         getService();
         System.out.println("in add customer serializable");
@@ -78,14 +95,26 @@ public class AddCustomer implements Serializable {
                 System.out.println("in second if");
                 System.out.println(customer.getDonPersonalList().get(0).getDon361enName());
                 personal = customer.getDonPersonalList().get(0);
-                pastEdu = customer.getDonPastList().get(0);
-                programEdu = customer.getDonProgramList().get(0);
+//                pastEdu = customer.getDonPastList().get(0);
+//                programEdu = customer.getDonProgramList().get(0);
                 bussiness = customer.getDonBussinessList().get(0);
                 templistPast = customer.getDonPastList();
-                
-                for(DonPast p : templistPast)
-                    if(p.getDeleted().equals(BaseEntity.DELETE_NO))
-                        listPast.add(p);
+                templistIdaq = customer.getDonProgramList();
+                if (null != templistPast) {
+                    for (DonPast p : templistPast) {
+                        if (p.getDeleted().equals(BaseEntity.DELETE_NO)) {
+                            listPast.add(p);
+                        }
+                    }
+                }
+                if (null != templistIdaq) {
+                    for (DonProgram p : templistIdaq) {
+                        if (p.getDeleted().equals(BaseEntity.DELETE_NO)) {
+                            listIdaq.add(p);
+                        }
+                    }
+                }
+
                 if (customer.getDonPersonalList().get(0).getDon361birthday() != null) {
                     tempDate = customer.getDonPersonalList().get(0).getDon361birthday().toString();
                 }
@@ -96,24 +125,23 @@ public class AddCustomer implements Serializable {
                     rashtiSex = "Female";
                 }
 
-                if (customer.getDonProgramList().get(0).getDon364firstPayment() == BaseEntity.DELETE_YES) {
-                    rashtiFirstPayment = "true";
-                } else {
-                    rashtiFirstPayment = "false";
-                }
-
-                if (customer.getDonProgramList().get(0).getDon364secondPayment() == BaseEntity.DELETE_YES) {
-                    rashtisecondPayment = "true";
-                } else {
-                    rashtisecondPayment = "false";
-                }
+//                if (customer.getDonProgramList().get(0).getDon364firstPayment() == BaseEntity.DELETE_YES) {
+//                    rashtiFirstPayment = "true";
+//                } else {
+//                    rashtiFirstPayment = "false";
+//                }
+//
+//                if (customer.getDonProgramList().get(0).getDon364secondPayment() == BaseEntity.DELETE_YES) {
+//                    rashtisecondPayment = "true";
+//                } else {
+//                    rashtisecondPayment = "false";
+//                }
             }
         } else {
             System.out.println("in else");
             customer = new DonCustomer();
             bussiness = new DonBussiness();
             personal = new DonPersonal();
-            programEdu = new DonProgram();
             pastEdu = new DonPast();
 
         }
@@ -138,6 +166,15 @@ public class AddCustomer implements Serializable {
 
     }
 
+    public void addIdaq() {
+        System.out.println("add idaq method ");
+        DonProgram t = new DonProgram();
+        t.setDon360id(customer);
+        t.setDeleted(BaseEntity.DELETE_NO);
+        listIdaq.add(t);
+
+    }
+
     public void deletePastRow(DonPast p) {
         if (null == deletedListPast) {
             deletedListPast = new ArrayList<DonPast>();
@@ -147,6 +184,15 @@ public class AddCustomer implements Serializable {
 
         listPast.remove(p);
 
+    }
+
+    public void deleteIdaqRow(DonProgram p) {
+        if (null == deletedListIdaq) {
+            deletedListIdaq = new ArrayList<DonProgram>();
+        }
+        p.setDeleted(BaseEntity.DELETE_YES);
+        deletedListIdaq.add(p);
+        listIdaq.remove(p);
     }
 
     public String addPastInfo() {
@@ -175,18 +221,17 @@ public class AddCustomer implements Serializable {
             personal.setDon361gender(BaseEntity.DELETE_NO);
         }
 
-        if (rashtiFirstPayment.equalsIgnoreCase("true")) {
-            programEdu.setDon364firstPayment(BaseEntity.DELETE_YES);
-        } else {
-            programEdu.setDon364firstPayment(BaseEntity.DELETE_NO);
-        }
-
-        if (rashtisecondPayment.equalsIgnoreCase("true")) {
-            programEdu.setDon364secondPayment(BaseEntity.DELETE_YES);
-        } else {
-            programEdu.setDon364secondPayment(BaseEntity.DELETE_NO);
-        }
-
+//        if (rashtiFirstPayment.equalsIgnoreCase("true")) {
+//            programEdu.setDon364firstPayment(BaseEntity.DELETE_YES);
+//        } else {
+//            programEdu.setDon364firstPayment(BaseEntity.DELETE_NO);
+//        }
+//
+//        if (rashtisecondPayment.equalsIgnoreCase("true")) {
+//            programEdu.setDon364secondPayment(BaseEntity.DELETE_YES);
+//        } else {
+//            programEdu.setDon364secondPayment(BaseEntity.DELETE_NO);
+//        }
         /// adding father to childs
         for (DonPast p : listPast) {
             if (null == p.getDon360id() && null == p.getDeleted()) {
@@ -195,25 +240,28 @@ public class AddCustomer implements Serializable {
                 p.setDon360id(customer);
             }
         }
-        if(null != deletedListPast){
-//           listPast.addAll(deletedListPast);
-       for( DonPast p : deletedListPast)
-           donPastService.remove(p);
-//        System.out.println(deletedListPast.toString());
+        if (null != deletedListPast) {
+            for (DonPast p : deletedListPast) {
+                donPastService.remove(p);
+            }
         }
-//        System.out.println(listPast.toString());
+        for (DonProgram p : listIdaq) {
+            if (null == p.getDon360id() && null == p.getDeleted()) {
+                p.setDeleted(BaseEntity.DELETE_NO);
+                p.setDon360id(customer);
+            }
+        }
+        if (null != deletedListIdaq) {
+            for (DonProgram p : deletedListIdaq) {
+                donProgramService.remove(p);
+            }
+        }
 
-//        for (DonProgram p : listProgram) {
-//            if (null == p.getDon360id()) {
-//                p.setDeleted(BaseEntity.DELETE_NO);
-//                p.setDon360id(customer);
-//            }
-//        }
         bussiness.setDon360id(customer);
 //        pastEdu.setDon360id(customer);
         personal.setDon360id(customer);
-        programEdu.setDon360id(customer);
-        programEdu.setDeleted(BaseEntity.DELETE_NO);
+//        programEdu.setDon360id(customer);
+//        programEdu.setDeleted(BaseEntity.DELETE_NO);
         personal.setDeleted(BaseEntity.DELETE_NO);
         bussiness.setDeleted(BaseEntity.DELETE_NO);
 //        pastEdu.setDeleted(BaseEntity.DELETE_NO);
@@ -221,13 +269,14 @@ public class AddCustomer implements Serializable {
 //        listPast.add(pastEdu);
 
         listPersonal.add(personal);
-        listProgram.add(programEdu);
+//        listProgram.add(programEdu);
         customer.setDonBussinessList(listBussiness);
         customer.setDonPersonalList(listPersonal);
+        customer.setDonProgramList(listIdaq);
 //        customer.setDonPastList(null);
 
         customer.setDonPastList(listPast);
-        customer.setDonProgramList(listProgram);
+//        customer.setDonProgramList(list);
         customer.setDeleted(BaseEntity.DELETE_NO);
         System.out.println(personal.getDon361name());
 
@@ -238,7 +287,8 @@ public class AddCustomer implements Serializable {
         customer.setDon360name(personal.getDon361enName() + " " + personal.getDon361enFamily());
         customer.setDon360mobileno(personal.getDon361mobileNumber());
         customer.setDon360bussinessNames(bussiness.getDon368bussName());
-        customer.setDon360programs(programEdu.getDon364programName());
+//        customer.setDon360programs(programEdu.getDon364programName());
+        customer.setDon360programs(managePrograms(listIdaq));
         customerService.update(customer);
         System.out.println("after commit");
         return "firstPage";
@@ -246,6 +296,23 @@ public class AddCustomer implements Serializable {
 
     public String cancelCustomer() {
         return "firstPage";
+    }
+
+    //oni ke to oon safhe aval neshoon midim
+    public String managePrograms(List<DonProgram> programList) {
+        String s = "";
+        int i = 0;
+        for (DonProgram p : programList) {
+            if (null != p.getDon364programName()) {
+                if (i == 0) {
+                    s += p.getDon364programName();
+                } else {
+                    s += " - " + p.getDon364programName();
+                }
+            }
+            i++;
+        }
+        return s;
     }
 
     ///Setters And Getters
@@ -281,14 +348,13 @@ public class AddCustomer implements Serializable {
         this.pastEdu = pastEdu;
     }
 
-    public DonProgram getProgramEdu() {
-        return programEdu;
-    }
-
-    public void setProgramEdu(DonProgram programEdu) {
-        this.programEdu = programEdu;
-    }
-
+//    public DonProgram getProgramEdu() {
+//        return programEdu;
+//    }
+//
+//    public void setProgramEdu(DonProgram programEdu) {
+//        this.programEdu = programEdu;
+//    }
     public String getRashtiSex() {
         return rashtiSex;
     }
@@ -297,22 +363,21 @@ public class AddCustomer implements Serializable {
         this.rashtiSex = rashtiSex;
     }
 
-    public String getRashtiFirstPayment() {
-        return rashtiFirstPayment;
-    }
-
-    public void setRashtiFirstPayment(String rashtiFirstPayment) {
-        this.rashtiFirstPayment = rashtiFirstPayment;
-    }
-
-    public String getRashtisecondPayment() {
-        return rashtisecondPayment;
-    }
-
-    public void setRashtisecondPayment(String rashtisecondPayment) {
-        this.rashtisecondPayment = rashtisecondPayment;
-    }
-
+//    public String getRashtiFirstPayment() {
+//        return rashtiFirstPayment;
+//    }
+//
+//    public void setRashtiFirstPayment(String rashtiFirstPayment) {
+//        this.rashtiFirstPayment = rashtiFirstPayment;
+//    }
+//
+//    public String getRashtisecondPayment() {
+//        return rashtisecondPayment;
+//    }
+//
+//    public void setRashtisecondPayment(String rashtisecondPayment) {
+//        this.rashtisecondPayment = rashtisecondPayment;
+//    }
     public String getTempDate() {
         return tempDate;
     }
@@ -328,6 +393,11 @@ public class AddCustomer implements Serializable {
 
     public void setPassScan(File passScan) {
         this.passScan = passScan;
+        try {
+            this.streamedPassScan = new DefaultStreamedContent( new FileInputStream(passScan));
+            } catch (FileNotFoundException ex) {
+                System.out.println("exception\n" + ex.getMessage());
+        }
     }
 
     public int getSelectedIndex() {
@@ -354,4 +424,32 @@ public class AddCustomer implements Serializable {
         this.listPast = listPast;
     }
 
+    public List<DonProgram> getListIdaq() {
+        return listIdaq;
+    }
+
+    public void setListIdaq(List<DonProgram> listIdaq) {
+        this.listIdaq = listIdaq;
+    }
+
+    public boolean isPassScanAvailable() {
+        return passScanAvailable;
+    }
+
+    public void setPassScanAvailable(boolean passScanAvailable) {
+        this.passScanAvailable = passScanAvailable;
+    }
+    
+    public void setpscan(){
+        this.passScanAvailable = true;
+    }
+
+    public StreamedContent getStreamedPassScan() {
+        return streamedPassScan;
+    }
+
+    public void setStreamedPassScan(StreamedContent streamedPassScan) {
+        this.streamedPassScan = streamedPassScan;
+    }
+    
 }
