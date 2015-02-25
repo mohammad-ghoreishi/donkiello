@@ -42,17 +42,10 @@ public class AuthenticationHandler implements Serializable {
         user = new DonUsers();
 
         donUsersService = getDonUsersService();
-//        System.out.println("before get service");
-//        customerService = (IDonCustomerService) JndiUtils.getModelEjb("DonCustomerService");
-//        System.out.println("after get service");
-//        customerService.getAll();
-//        System.out.println("after get all");
-//         donUsersService.create(user);
     }
 
     public void viewAction() {
 
-        System.out.println("iniiiiiiiiiiiiiiiiiiiiiiiiit");
         if (null != onlineUser) {
             System.out.println("online user is : " + onlineUser.getDon369username());
             try {
@@ -80,11 +73,8 @@ public class AuthenticationHandler implements Serializable {
     public String authenticate() {
         try {
 
-            System.out.println("authenticate");
             dus = donUsersService.getAll();
-//        System.out.println(dus.get(0).getName());
             if (userName == null || userName.length() < 1 || password == null || password.length() < 1) {
-                System.out.println("not entered");
                 JSFUtils.addFacesErrorMessage("Authentication Failed!", "Please Enter needed Values");
                 password = "";
                 return "";
@@ -93,11 +83,10 @@ public class AuthenticationHandler implements Serializable {
                 if (name == null) {
                     JSFUtils.addFacesErrorMessage("Authentication Failed!", "Incorrect User name or Password");
                     password = "";
-                    System.out.println("authenticate null");
                     return "";
                 } else {
                     try {
-                        onlineUser = donUsersService.getOnlineUser(donUsersService.checkLogin(userName, password));
+                        onlineUser = donUsersService.getOnlineUser(name);
                     } catch (Exception e) {
 
                         System.out.println(e.getMessage());

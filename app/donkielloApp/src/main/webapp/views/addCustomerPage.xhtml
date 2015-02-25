@@ -6,8 +6,14 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head/>
-    <h:body>
+    <h:head>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/fresco/fresco.js"></script>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/css/fresco/fresco.css"/>
+
+    </h:head>
+    <h:body >
+
+
 
         <h:form id="form"  >
             <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
@@ -15,23 +21,6 @@
 
             <p:tabView  activeIndex="#{addCustomer.activeIndex}">
                 <p:tab title="Personal Information" transient="true">
-                    <p:dialog transient="true" header="Car Info" widgetVar="scandialog" dynamic="true" style="position: fixed; top: 10px" position="center" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"   >
-                        <p:outputPanel id="dialogf" style="text-align:center; ">
-                            <p:panelGrid  columns="2"  columnClasses="label,value" >
-                                <f:facet name="header">
-                                    <p:graphicImage value="#{addCustomer.streamedPassScan}"/> 
-                                </f:facet>
-
-                                <h:outputText value="Id:" />
-                                <h:outputText value="id" />
-
-                                <h:outputText value="Year" />
-                                <h:outputText value="year" />
-
-
-                            </p:panelGrid>
-                        </p:outputPanel>
-                    </p:dialog>
                     <p:panel header="Personal info:Part 1" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
                         <h:panelGrid columns="2" cellpadding="20" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10">
@@ -49,25 +38,18 @@
                                 </p:inputText>
                                 <p:outputLabel for="sex" value="Gender:" />
                                 <p:selectOneMenu id="sex" value="#{addCustomer.rashtiSex}">
-
                                     <f:selectItem itemLabel="Male" itemValue="Male" />
                                     <f:selectItem itemLabel="Female" itemValue="Female" />
                                 </p:selectOneMenu>
                                 <p:outputLabel for="prefix" value="Prefix:" />
                                 <p:inputText id="prefix" value="#{addCustomer.personal.don361prefix}"  label="Prefix">
                                 </p:inputText>
-
-
                             </h:panelGrid>
-
                             <h:panelGrid columns="2" cellpadding="10" >
-
-
                                 <p:outputLabel for="birthdate" value="Birthdate:" />
                                 <p:calendar yearRange="c-60:c+10" id="birthdate" value="#{addCustomer.personal.don361birthday}" locale="de" navigator="true" pattern="yyyy-MMM-dd" >
                                     <f:convertDateTime pattern="yyyy-MMM-dd"/>
                                 </p:calendar>
-
                                 <p:outputLabel for="melliCodenum" value="MelliCode Number:" />
                                 <p:inputText id="melliCodenum" value="#{addCustomer.personal.don361birthCerNo}"  label="melliCodeNum">
                                 </p:inputText>
@@ -88,14 +70,14 @@
                         </h:panelGrid>
                     </p:panel>
                     <br/>
-                    <p:panel header="Personal info:Part 2" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
+                    <p:panel id="panel1" header="Personal info:Part 2" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
                         <h:panelGrid columns="2" cellpadding="20" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10">
                                 <p:outputLabel for="email" value="Email:" />
                                 <p:inputText id="email" value="#{addCustomer.personal.don361personalMail}"  label="Email:">
                                 </p:inputText>
                                 <p:outputLabel for="mobilenum" value="Mobile Number:" />
-                                <p:inputText id="mobilenum" value="#{addCustomer.personal.don361mobileNumber}"  label="MobileNumber">
+                                <p:inputText  id="mobilenum" value="#{addCustomer.personal.don361mobileNumber}"  label="MobileNumber">
                                 </p:inputText>
                                 <p:outputLabel for="homeNumber" value="Home Number:" />
                                 <p:inputText id="homeNumber" value="#{addCustomer.personal.don361homeTel}"  label="homeNumber">
@@ -104,14 +86,12 @@
                                 <p:inputText id="homefax" value="#{addCustomer.personal.don361homeFax}"  label="homeFax">
                                 </p:inputText>
                                 <p:outputLabel value="Passport Scan:" />
-                                <c:if test="#{!addCustomer.passScanAvailable}">
-                                    <p:fileUpload rendered="#{!addCustomer.passScanAvailable}" value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
-                                                  sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" oncomplete="#{addCustomer.setpscan()}" update="@form"/>
-                                </c:if>
-                                <c:if test="#{addCustomer.passScanAvailable}">
-                                    <p:commandButton   value="Show pic" onclick="PF('scandialog').show()"  />
-
-                                </c:if>
+                                    <p:fileUpload fileUploadListener="#{addCustomer.handleFileUpload}" value="#{addCustomer.pfile}" rendered="#{!addCustomer.passScanAvailable}"   mode="advanced"  
+                                                  sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  />
+                                    <p:panel  rendered="#{addCustomer.passScanAvailable}">
+<!--                                        <h:graphicImage value="/DisplayImage?pid=#{addCustomer.personal.don361id}" />-->
+                                        <a href="#{request.contextPath}/DisplayImage?pid=#{addCustomer.personal.don361id}" class="fresco" >Show Photo</a>
+                                    </p:panel>
                                 <p:outputLabel  value="Shenasname Scan:" />
                                 <c:if test="#{!false}">
                                     <p:fileUpload  value="#{addCustomer.passScan}" mode="advanced" dragDropSupport="true"
@@ -383,5 +363,6 @@
             <p:commandButton value="Cancel" style="float: right;" action="#{addCustomer.cancelCustomer()}" ajax="false" type="submit"/>
 
         </h:form>
+
     </h:body>
 </f:view>
