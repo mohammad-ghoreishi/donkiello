@@ -8,6 +8,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head />
     <h:body>
+        <h:outputStylesheet name="css/default.css" />
         <h:form >
             <p:messages />
             <p:panel style="width: 100%; height: 100%;">
@@ -16,12 +17,12 @@
                 <p:graphicImage name="/images/logo.png" style="margin-left: auto; margin-right: auto; display: block;"/>
                 <br/>
                 <p:outputLabel  value="Wellcome to IDAQ Customer Manager System" style="text-align: center; display: block;"/>
-               
+
                 <p:outputLabel value="Please Login to use the system" style="text-align: center; display: block;"/>
                 <br/>
-                <p:panel header="Login" style="width: 30%; margin-left: auto; margin-right: auto;" >
+                <p:panel header="Login" id="loginPanel" style="width: 30%; margin-left: auto; margin-right: auto;" >
                     <h:panelGrid cellpadding="5" columns="3">
-                    
+
                         <h:outputLabel for="name" value="User Name" />
                         <p:inputText id="name" value="#{login.userName}" required="true" requiredMessage="Please Enter Username!"/>
 
@@ -33,7 +34,11 @@
                         <p:password id="pwd" value="#{login.password}" label="Password 1" required="true" requiredMessage="Trust us please enter your password" />
                     </h:panelGrid>
 
-                    <p:commandButton  value="Login" action="#{login.authenticate()}" update="growl" style="margin-left: auto; margin-right: auto; display: block;" />
+                    <p:commandButton  id="loginButton" value="Login" action="#{login.authenticate()}" update="growl" style="margin-left: auto; margin-right: auto; display: block;"/>
+                    <p:blockUI block="loginPanel" trigger="loginButton">
+                        PLEASE WAIT<br />
+                        <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
+                    </p:blockUI>
                 </p:panel>
             </p:panel>
         </h:form>

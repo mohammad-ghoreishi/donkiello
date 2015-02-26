@@ -7,6 +7,7 @@
 package com.donkiello.model.service.common;
 
 import com.donkiello.model.entity.common.DonPersonal;
+import com.donkiello.model.exeption.BusinessException;
 import com.donkiello.model.service.base.IService;
 import javax.ejb.Remote;
 
@@ -16,5 +17,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IDonPersonalService extends IService<DonPersonal>{
+    public void insertImage(byte[] image , int pid , boolean isPassport)throws BusinessException;
     
 }

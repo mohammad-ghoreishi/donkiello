@@ -92,7 +92,7 @@ public class AuthenticationHandler implements Serializable {
                         System.out.println(e.getMessage());
                     } finally {
                         System.out.println(name);
-                        return "firstPage";
+                        return "firstPage?faces-redirect=true";
 
                     }
                 }
@@ -108,7 +108,7 @@ public class AuthenticationHandler implements Serializable {
 
     public String logout() {
         onlineUser = null;
-        return "login";
+        return "login?faces-redirect=true";
     }
 
     public String getUserName() {

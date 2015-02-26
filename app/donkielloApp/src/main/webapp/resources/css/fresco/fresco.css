@@ -176,6 +176,7 @@
 .fr-box { position: absolute; top: 0; left: 0; height: 100%; width: 100%; }
 .fr-box-has-ui-outside { overflow: hidden; }
 .fr-box-spacer, .fr-ui-spacer {
+    top: auto!important;
   position: absolute;
   -webkit-user-select: none;
   -khtml-user-select: none;

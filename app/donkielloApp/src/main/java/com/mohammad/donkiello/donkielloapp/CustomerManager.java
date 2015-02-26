@@ -113,7 +113,7 @@ public class CustomerManager implements Serializable {
         JSFUtils.storeOnSession("selectedCustomer", selectedCustomer);
         
         try {
-            return "addCustomerPage";
+            return "addCustomerPage?faces-redirect=true";
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return "";

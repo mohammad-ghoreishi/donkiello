@@ -49,5 +49,11 @@ public class DonCustomerService implements IDonCustomerService{
     public List<DonCustomer> getAll() throws BusinessException {
         return donCustomerDao.getAll();
     }
+
+    public void insertPhoto(byte[] image, int pid) throws BusinessException {
+        DonCustomer customer = donCustomerDao.searchById(pid);
+        customer.setDon360image(image);
+        donCustomerDao.update(customer);
+    }
     
 }

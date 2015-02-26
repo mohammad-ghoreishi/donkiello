@@ -13,12 +13,12 @@ import com.donkiello.model.entity.common.DonPersonal;
 import com.donkiello.model.entity.common.DonProgram;
 import com.donkiello.model.service.common.IDonCustomerService;
 import com.donkiello.model.service.common.IDonPastService;
+import com.donkiello.model.service.common.IDonPersonalService;
 import com.donkiello.model.service.common.IDonProgramService;
 import com.donkiello.utility.JSFUtils;
 import com.donkiello.utility.JndiUtils;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import org.primefaces.model.UploadedFile;
 @ViewScoped
 public class AddCustomer implements Serializable {
 
-    private DonCustomer customer = null;
+    private DonCustomer customer;
     private List<DonPersonal> listPersonal;
     private List<DonBussiness> listBussiness;
     private List<DonPast> listPast = null;
@@ -57,12 +57,15 @@ public class AddCustomer implements Serializable {
     private String tempDate = "";
     private File passScan;
     private boolean passScanAvailable;
+    private boolean birthCertScanAvailable;
+    private boolean PhotoScanAvailable;
     private IDonPastService donPastService;
     private IDonProgramService donProgramService;
-    private UploadedFile pfile;
+    private IDonPersonalService donPersonalService;
+    private UploadedFile pfile, pfile2, pfile3;
     private String tmpFirstPayment;
 
-    private StreamedContent passImage;
+    private StreamedContent passImage, birthCertScan, photoScan;
 
     private IDonCustomerService getService() {
         return customerService = (IDonCustomerService) JndiUtils.getModelEjb("DonCustomerService");
@@ -71,10 +74,13 @@ public class AddCustomer implements Serializable {
     public AddCustomer() {
         donPastService = (IDonPastService) JndiUtils.getModelEjb("DonPastService");
         donProgramService = (IDonProgramService) JndiUtils.getModelEjb("DonProgramService");
+        donPersonalService = (IDonPersonalService) JndiUtils.getModelEjb("DonPersonalService");
     }
 
     public void initialize() {
         passScanAvailable = false;
+        birthCertScanAvailable = false;
+        PhotoScanAvailable = false;
         if (null == listPast) {
             listBussiness = new ArrayList<DonBussiness>();
             listPast = new ArrayList<DonPast>();
@@ -84,6 +90,10 @@ public class AddCustomer implements Serializable {
         getService();
         customer = (DonCustomer) JSFUtils.getFromSession("selectedCustomer");
         if (customer != null) {
+            if (null != customer.getDon360image()) {
+                    PhotoScanAvailable = true;
+                    System.out.println(" photo is available");
+                }
             JSFUtils.removeFromSession("selectedCustomer");
             if (null != customer.getDonPersonalList() && null != customer.getDonProgramList()) {
                 personal = customer.getDonPersonalList().get(0);
@@ -93,16 +103,14 @@ public class AddCustomer implements Serializable {
                 //loading Photos
                 if (null != personal.getDon361passportScan()) {
                     passScanAvailable = true;
-                    
-//                    try {
-//                        FileOutputStream fos = new FileOutputStream(passScan);
-//                        fos.write(personal.getDon361passportScan());
-//                        fos.close();
-//                    } catch (Exception ex) {
-//                        System.out.println("exception in byte to file : " + ex.getMessage());
-//                    }
+                    System.out.println(" 1 is available");
+                }
+                if (null != personal.getDon361birthCertScan()) {
+                    birthCertScanAvailable = true;
+                    System.out.println(" 2 is available");
 
                 }
+                
                 if (null != templistPast) {
                     for (DonPast p : templistPast) {
                         if (p.getDeleted().equals(BaseEntity.DELETE_NO)) {
@@ -144,17 +152,54 @@ public class AddCustomer implements Serializable {
     public void onRowCancel(RowEditEvent event) {
     }
 
-    public void handleFileUpload(FileUploadEvent event) {
+    public void handleFileUpload1(FileUploadEvent event) {
 
         this.pfile = event.getFile();
-        System.out.println(pfile.getFileName());
         byte[] myfile = new byte[pfile.getContents().length];
         System.arraycopy(pfile.getContents(), 0, myfile, 0, pfile.getContents().length);
-        System.out.println("before setting do entity");
         personal.setDon361passportScan(myfile);
-        System.out.println("after setting to entity");
+        donPersonalService.insertImage(myfile, personal.getDon361id(), true);
+        this.passScanAvailable = true;
 
     }
+
+    public void handleFileUpload2(FileUploadEvent event) {
+
+        this.pfile2 = event.getFile();
+        byte[] myfile = new byte[pfile2.getContents().length];
+        System.arraycopy(pfile2.getContents(), 0, myfile, 0, pfile2.getContents().length);
+        personal.setDon361birthCertScan(myfile);
+        donPersonalService.insertImage(myfile, personal.getDon361id(), false);
+        this.birthCertScanAvailable = true;
+
+    }
+
+    public void handleFileUpload3(FileUploadEvent event) {
+
+        this.pfile3 = event.getFile();
+        byte[] myfile = new byte[pfile3.getContents().length];
+        System.arraycopy(pfile3.getContents(), 0, myfile, 0, pfile3.getContents().length);
+        customer.setDon360image(myfile);
+        customerService.insertPhoto(myfile, customer.getDon360id());
+        this.PhotoScanAvailable = true;
+
+    }
+    
+    
+    public void removeImage1(){
+        this.passScanAvailable = false;
+        personal.setDon361passportScan(null);
+    }
+    public void removeImage2(){
+        this.birthCertScanAvailable = false;
+        personal.setDon361birthCertScan(null);
+    }
+    public void removeImage3(){
+        this.PhotoScanAvailable = false;
+        customer.setDon360image(null);
+    }
+    
+    
 
     public void addPast() {
         System.out.println("add past method ");
@@ -195,25 +240,24 @@ public class AddCustomer implements Serializable {
     }
 
     public String addPastInfo() {
-        System.out.println("salam");
 
         return "";
     }
 
     public String addIdaqInfo() {
-        System.out.println("salam");
-        System.out.println("salam2");
         return "";
     }
 
     public String addNewBussiness() {
-        System.out.println("salam");
-        System.out.println("salam2");
         return "";
     }
 
     public String commitCustomer() {
-        System.out.println("in commit");
+        
+        if(customer.getDon360image()== null)
+            System.out.println(" 1 customer image not available");
+        
+        
         if (rashtiSex.equalsIgnoreCase("male")) {
             personal.setDon361gender(BaseEntity.DELETE_YES);
         } else {
@@ -251,6 +295,8 @@ public class AddCustomer implements Serializable {
         bussiness.setDeleted(BaseEntity.DELETE_NO);
         listBussiness.add(bussiness);
         listPersonal.add(personal);
+        if(customer.getDon360image()== null)
+            System.out.println(" 2 customer image not available");
         customer.setDonBussinessList(listBussiness);
         customer.setDonPersonalList(listPersonal);
         customer.setDonProgramList(listIdaq);
@@ -258,19 +304,19 @@ public class AddCustomer implements Serializable {
         customer.setDeleted(BaseEntity.DELETE_NO);
         //uploading File
         //http://forum.primefaces.org/viewtopic.php?f=3&t=14562
-        // tokhom adding
         // TODO : tell and bussinessname and payment status and program lists
         customer.setDon360name(personal.getDon361enName() + " " + personal.getDon361enFamily());
         customer.setDon360mobileno(personal.getDon361mobileNumber());
         customer.setDon360bussinessNames(bussiness.getDon368bussName());
         customer.setDon360programs(managePrograms(listIdaq));
         customerService.update(customer);
-        System.out.println("after commit");
-        return "firstPage";
+        if(customer.getDon360image()== null)
+            System.out.println(" 3 customer image not available");
+        return "firstPage?faces-redirect=true";
     }
 
     public String cancelCustomer() {
-        return "firstPage";
+        return "firstPage?faces-redirect=true";
     }
 
     //oni ke to oon safhe aval neshoon midim
@@ -389,36 +435,83 @@ public class AddCustomer implements Serializable {
         this.passScanAvailable = passScanAvailable;
     }
 
-    public void setpscan() {
-        this.passScanAvailable = true;
-        System.out.println("wordk");
-        if (null != pfile) {
-            System.out.println(pfile.getFileName());
-        }
+    public boolean isBirthCertScanAvailable() {
+        return birthCertScanAvailable;
+    }
+
+    public void setBirthCertScanAvailable(boolean birthCertScanAvailable) {
+        this.birthCertScanAvailable = birthCertScanAvailable;
+    }
+
+    public boolean isPhotoScanAvailable() {
+        return PhotoScanAvailable;
+    }
+
+    public void setPhotoScanAvailable(boolean PhotoScanAvailable) {
+        this.PhotoScanAvailable = PhotoScanAvailable;
     }
 
     public UploadedFile getPfile() {
-        System.out.println("getting pfile");
         return pfile;
     }
 
     public void setPfile(UploadedFile pfile) {
         this.pfile = pfile;
-        System.out.println("setting pfile");
+    }
+
+    public UploadedFile getPfile2() {
+        return pfile2;
+    }
+
+    public void setPfile2(UploadedFile pfile2) {
+        this.pfile2 = pfile2;
+    }
+
+    public UploadedFile getPfile3() {
+        return pfile3;
+    }
+
+    public void setPfile3(UploadedFile pfile3) {
+        this.pfile3 = pfile3;
     }
 
     public StreamedContent getPassImage() {
 
-        if(null==this.passImage){
+        if (null == this.passImage) {
             InputStream is = new ByteArrayInputStream(personal.getDon361passportScan());
             passImage = new DefaultStreamedContent(is);
-        
+
         }
         return passImage;
     }
 
     public void setPassImage(StreamedContent passImage) {
         this.passImage = passImage;
+    }
+
+    public StreamedContent getBirthCertScan() {
+        if (null == this.birthCertScan) {
+            InputStream is = new ByteArrayInputStream(personal.getDon361birthCertScan());
+            birthCertScan = new DefaultStreamedContent(is);
+        }
+        return birthCertScan;
+    }
+
+    public void setBirthCertScan(StreamedContent birthCertScan) {
+        this.birthCertScan = birthCertScan;
+    }
+
+    public StreamedContent getPhotoScan() {
+        if (null == this.photoScan) {
+            InputStream is = new ByteArrayInputStream(customer.getDon360image());
+            photoScan = new DefaultStreamedContent(is);
+        }
+
+        return photoScan;
+    }
+
+    public void setPhotoScan(StreamedContent photoScan) {
+        this.photoScan = photoScan;
     }
 
 }

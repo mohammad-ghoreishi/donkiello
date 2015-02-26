@@ -51,5 +51,16 @@ public class DonPersonalService implements IDonPersonalService{
     public List<DonPersonal> getAll() throws BusinessException {
         return donPersonalDao.getAll();
     }
+
+    public void insertImage(byte[] image , int pid , boolean isPassport) throws BusinessException {
+        DonPersonal p = donPersonalDao.searchById(pid);
+        if(isPassport)
+            p.setDon361passportScan(image);
+        else
+            p.setDon361birthCertScan(image);
+           donPersonalDao.update(p);
+    }
+
+   
     
 }
