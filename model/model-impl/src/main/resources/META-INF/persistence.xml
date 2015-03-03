@@ -27,7 +27,6 @@
             <property name="hibernate.connection.datasource" value="java:jboss/datasources/DonDs"/>
             <property name="hibernate.connection.autocommit" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.connection.useUnicode" value="true" />
             <property name="hibernate.connection.characterEncoding" value="UTF-8" />
         </properties>

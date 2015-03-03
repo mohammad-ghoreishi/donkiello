@@ -94,14 +94,12 @@ public class CustomerManager implements Serializable {
 		HSSFWorkbook wb = (HSSFWorkbook) document;
 		HSSFSheet sheet = wb.getSheetAt(0);
 		HSSFRow header = sheet.getRow(0);
-		sheet.setColumnHidden((int)header.getLastCellNum()-1, true);
 		HSSFCellStyle cellStyle = wb.createCellStyle();  
-		cellStyle.setFillForegroundColor(HSSFColor.GREEN.index);
+		cellStyle.setFillForegroundColor(HSSFColor.ORANGE.index);
 		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-		
-		for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
+
+                for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
 			HSSFCell cell = header.getCell(i);
-			
 			cell.setCellStyle(cellStyle);
 		}
 	}
@@ -122,8 +120,7 @@ public class CustomerManager implements Serializable {
     }
 
     public String addCustomer() {
-
-        return "addCustomerPage";
+        return "addCustomerPage?faces-redirect=true&amp;add=true&amp;";
     }
 
     private IDonCustomerService getCustomerService() {

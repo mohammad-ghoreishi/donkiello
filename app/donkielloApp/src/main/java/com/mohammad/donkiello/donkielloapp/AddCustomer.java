@@ -81,6 +81,10 @@ public class AddCustomer implements Serializable {
         passScanAvailable = false;
         birthCertScanAvailable = false;
         PhotoScanAvailable = false;
+        if(null!=JSFUtils.getFromRequestParameter("add")&&JSFUtils.getFromRequestParameter("add").equalsIgnoreCase("true")){
+            JSFUtils.removeFromSession("selectedCustomer");
+        }
+        
         if (null == listPast) {
             listBussiness = new ArrayList<DonBussiness>();
             listPast = new ArrayList<DonPast>();
@@ -91,10 +95,9 @@ public class AddCustomer implements Serializable {
         customer = (DonCustomer) JSFUtils.getFromSession("selectedCustomer");
         if (customer != null) {
             if (null != customer.getDon360image()) {
-                    PhotoScanAvailable = true;
-                    System.out.println(" photo is available");
-                }
-            JSFUtils.removeFromSession("selectedCustomer");
+                PhotoScanAvailable = true;
+            }
+//            JSFUtils.removeFromSession("selectedCustomer");
             if (null != customer.getDonPersonalList() && null != customer.getDonProgramList()) {
                 personal = customer.getDonPersonalList().get(0);
                 bussiness = customer.getDonBussinessList().get(0);
@@ -103,14 +106,11 @@ public class AddCustomer implements Serializable {
                 //loading Photos
                 if (null != personal.getDon361passportScan()) {
                     passScanAvailable = true;
-                    System.out.println(" 1 is available");
                 }
                 if (null != personal.getDon361birthCertScan()) {
                     birthCertScanAvailable = true;
-                    System.out.println(" 2 is available");
-
                 }
-                
+
                 if (null != templistPast) {
                     for (DonPast p : templistPast) {
                         if (p.getDeleted().equals(BaseEntity.DELETE_NO)) {
@@ -137,7 +137,6 @@ public class AddCustomer implements Serializable {
                 }
             }
         } else {
-            System.out.println("in else");
             customer = new DonCustomer();
             bussiness = new DonBussiness();
             personal = new DonPersonal();
@@ -184,25 +183,23 @@ public class AddCustomer implements Serializable {
         this.PhotoScanAvailable = true;
 
     }
-    
-    
-    public void removeImage1(){
+
+    public void removeImage1() {
         this.passScanAvailable = false;
         personal.setDon361passportScan(null);
     }
-    public void removeImage2(){
+
+    public void removeImage2() {
         this.birthCertScanAvailable = false;
         personal.setDon361birthCertScan(null);
     }
-    public void removeImage3(){
+
+    public void removeImage3() {
         this.PhotoScanAvailable = false;
         customer.setDon360image(null);
     }
-    
-    
 
     public void addPast() {
-        System.out.println("add past method ");
         DonPast t = new DonPast();
         t.setDon360id(customer);
         t.setDeleted(BaseEntity.DELETE_NO);
@@ -211,7 +208,6 @@ public class AddCustomer implements Serializable {
     }
 
     public void addIdaq() {
-        System.out.println("add idaq method ");
         DonProgram t = new DonProgram();
         t.setDon360id(customer);
         t.setDeleted(BaseEntity.DELETE_NO);
@@ -253,11 +249,10 @@ public class AddCustomer implements Serializable {
     }
 
     public String commitCustomer() {
-        
-        if(customer.getDon360image()== null)
-            System.out.println(" 1 customer image not available");
-        
-        
+
+        if (customer.getDon360image() == null) {
+        }
+
         if (rashtiSex.equalsIgnoreCase("male")) {
             personal.setDon361gender(BaseEntity.DELETE_YES);
         } else {
@@ -267,7 +262,6 @@ public class AddCustomer implements Serializable {
         /// adding father to childs
         for (DonPast p : listPast) {
             if (null == p.getDon360id() && null == p.getDeleted()) {
-                System.out.println("jack na");
                 p.setDeleted(BaseEntity.DELETE_NO);
                 p.setDon360id(customer);
             }
@@ -295,8 +289,6 @@ public class AddCustomer implements Serializable {
         bussiness.setDeleted(BaseEntity.DELETE_NO);
         listBussiness.add(bussiness);
         listPersonal.add(personal);
-        if(customer.getDon360image()== null)
-            System.out.println(" 2 customer image not available");
         customer.setDonBussinessList(listBussiness);
         customer.setDonPersonalList(listPersonal);
         customer.setDonProgramList(listIdaq);
@@ -309,9 +301,10 @@ public class AddCustomer implements Serializable {
         customer.setDon360mobileno(personal.getDon361mobileNumber());
         customer.setDon360bussinessNames(bussiness.getDon368bussName());
         customer.setDon360programs(managePrograms(listIdaq));
+        customer.setDon360paymentStatus(managePayment(listIdaq));
         customerService.update(customer);
-        if(customer.getDon360image()== null)
-            System.out.println(" 3 customer image not available");
+        if (customer.getDon360image() == null) {
+        }
         return "firstPage?faces-redirect=true";
     }
 
@@ -335,7 +328,25 @@ public class AddCustomer implements Serializable {
         }
         return s;
     }
-
+    
+    public String managePayment(List<DonProgram> programList) {
+        String payment = "";
+        boolean isPaid=true;
+        for (DonProgram p : programList) {
+            if (null != p.getDon364firstPayment()) {
+                if(p.getDon364firstPayment().equalsIgnoreCase("not Paid")||p.getDon364secondPayment().equalsIgnoreCase("not Paid")){
+                    isPaid=false;
+                    break;
+                }
+            }
+        }
+        if (isPaid)
+            payment="paid up";
+        else
+            payment="on debt";
+        return payment;
+    }
+    
     ///Setters And Getters
     public DonCustomer getCustomer() {
         return customer;

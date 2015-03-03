@@ -12,13 +12,10 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -72,8 +69,9 @@ public class DonCustomer implements Serializable {
     @Size(max = 500)
     @Column(name = "DON360PROGRAMS")
     private String don360programs;
+    @Size(max = 100)
     @Column(name = "DON360PAYMENT_STATUS")
-    private Long don360paymentStatus;
+    private String don360paymentStatus;
     @Size(max = 200)
     @Column(name = "DON360MOBILENO")
     private String don360mobileno;
@@ -163,11 +161,11 @@ public class DonCustomer implements Serializable {
         this.don360programs = don360programs;
     }
 
-    public Long getDon360paymentStatus() {
+    public String getDon360paymentStatus() {
         return don360paymentStatus;
     }
 
-    public void setDon360paymentStatus(Long don360paymentStatus) {
+    public void setDon360paymentStatus(String don360paymentStatus) {
         this.don360paymentStatus = don360paymentStatus;
     }
 

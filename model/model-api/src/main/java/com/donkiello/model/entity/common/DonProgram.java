@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -58,13 +56,22 @@ public class DonProgram implements Serializable {
     @Size(max = 1000)
     @Column(name = "DON364SUPERVISOR")
     private String don364supervisor;
+    @Size(max = 100)
     @Column(name = "DON364FIRST_PAYMENT")
-    private Short don364firstPayment;
+    private String don364firstPayment;
+    @Size(max = 100)
     @Column(name = "DON364SECOND_PAYMENT")
-    private Short don364secondPayment;
+    private String don364secondPayment;
     @Size(max = 2000)
     @Column(name = "DON364PAYMENT_DESC")
     private String don364paymentDesc;
+    @Size(max = 100)
+    @Column(name = "DON364PAYMENT_STATUS")
+    private String don364paymentStatus;
+    @Size(max = 100)
+    @Column(name = "DON364ISSTUDYING")
+    private String don364isStudying;
+    
     @Column(name = "DON364DELETED")
     private Short deleted;
     @JoinColumn(name = "DON360ID", referencedColumnName = "DON360ID")
@@ -118,21 +125,6 @@ public class DonProgram implements Serializable {
         this.don364supervisor = don364supervisor;
     }
 
-    public Short getDon364firstPayment() {
-        return don364firstPayment;
-    }
-
-    public void setDon364firstPayment(Short don364firstPayment) {
-        this.don364firstPayment = don364firstPayment;
-    }
-
-    public Short getDon364secondPayment() {
-        return don364secondPayment;
-    }
-
-    public void setDon364secondPayment(Short don364secondPayment) {
-        this.don364secondPayment = don364secondPayment;
-    }
 
     public String getDon364paymentDesc() {
         return don364paymentDesc;
@@ -158,6 +150,38 @@ public class DonProgram implements Serializable {
         this.don360id = don360id;
     }
 
+    public String getDon364firstPayment() {
+        return don364firstPayment;
+    }
+
+    public void setDon364firstPayment(String don364firstPayment) {
+        this.don364firstPayment = don364firstPayment;
+    }
+
+    public String getDon364secondPayment() {
+        return don364secondPayment;
+    }
+
+    public void setDon364secondPayment(String don364secondPayment) {
+        this.don364secondPayment = don364secondPayment;
+    }
+
+    public String getDon364paymentStatus() {
+        return don364paymentStatus;
+    }
+
+    public void setDon364paymentStatus(String don364paymentStatus) {
+        this.don364paymentStatus = don364paymentStatus;
+    }
+
+    public String getDon364isStudying() {
+        return don364isStudying;
+    }
+
+    public void setDon364isStudying(String don364isStudying) {
+        this.don364isStudying = don364isStudying;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

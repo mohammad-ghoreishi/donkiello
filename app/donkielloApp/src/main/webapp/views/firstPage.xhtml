@@ -9,8 +9,10 @@
     <h:head />
 
     <h:body onload='$(".ui-icon-arrowthick-1-n").css("display", "none")' >
+        <script src="#{request.contextPath}/resources/js/fresco/default.js" type="text/javascript"/>
         <h:outputStylesheet name="css/default.css" />
         <h:form id="form">
+               
             <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
             <p:growl id="growl1" showDetail="true"  />
             <p:dataTable rowStyleClass="rowClass" style="font-size: 13px; font-style: normal;" id="customerTable" var="customer"  value="#{customerManager.customerList}" widgetVar="customersTable"
@@ -55,7 +57,7 @@
                 <p:column filterBy="#{customer.don360bussinessNames}" headerText="Business Name" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360bussinessNames}" />
                 </p:column>
-                <p:column filterBy="#{customer.donPersonalList.get(0).don361description}" headerText="Comments" filterMatchMode="contains">
+                <p:column  filterBy="#{customer.donPersonalList.get(0).don361description}" headerText="Comments" styleClass="not-show-at-start" filterMatchMode="contains">
                     <h:outputText value="#{customer.donPersonalList.get(0).don361description}" />
                 </p:column>
                 <p:column  filterBy="#{customer.donPersonalList.get(0).don361homeAddress}" headerText="Address" filterMatchMode="contains">
@@ -64,14 +66,17 @@
                 <p:column filterBy="#{customer.donBussinessList.get(0).don368tag}" headerText="Business Tags" filterMatchMode="contains">
                     <h:outputText value="#{customer.donBussinessList.get(0).don368tag}" />
                 </p:column>
-                <p:column filterBy="#{customer.don360customerEcoRate}" headerText="Financial status" filterMatchMode="contains">
+                <p:column filterBy="#{customer.don360customerEcoRate}" headerText="Financial status" sortBy="#{customer.don360customerEcoRate}" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360customerEcoRate}" />
+                </p:column>
+                <p:column filterBy="#{customer.don360paymentStatus}" headerText="Payment status" sortBy="#{customer.don360paymentStatus}" filterMatchMode="contains">
+                    <h:outputText value="#{customer.don360paymentStatus}" />
                 </p:column>
                 <p:column filterBy="#{customer.donBussinessList.get(0).don368bussField}" headerText="Business Fields" filterMatchMode="contains">
                     <h:outputText value="#{customer.donBussinessList.get(0).don368bussField}" />
                 </p:column>
 
-                <p:column style="width:32px;text-align: center" exportable="false" >
+                <p:column width="40" style="max-width: 40px;" exportable="false" >
                     <p:commandButton  icon="ui-icon-close" type="button" title="Delete">
                         <p:confirm/>
                     </p:commandButton>
@@ -84,10 +89,7 @@
                 </p:column>
 
             </p:dataTable>
-            <p:blockUI block="customerTable" trigger="customerTable">
-                LOADING<br />
-                <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
-            </p:blockUI>
+
             <h:commandLink>
                 <p:graphicImage name="/images/excel.png" />
                 <p:dataExporter  type="xls" target="customerTable" fileName="students" />

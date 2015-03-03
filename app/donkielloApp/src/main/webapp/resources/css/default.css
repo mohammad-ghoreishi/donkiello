@@ -16,9 +16,6 @@ and open the template in the editor.
     
 }
 .ui-datatable thead th {
-    font-size: small;
+    font-size: 12px;
     
-}
-.rowClass{
-    max-height: 90px;
 }

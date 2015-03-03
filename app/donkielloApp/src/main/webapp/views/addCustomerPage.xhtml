@@ -18,23 +18,23 @@
         <h:form id="form"  >
             <f:event type="preRenderComponent" listener="#{login.checkSession}"/>
             <f:event type="preRenderComponent" listener="#{addCustomer.initialize()}"/>    
-
+            <p:growl id="growl" />
             <p:tabView  activeIndex="#{addCustomer.activeIndex}" id="tview" effect="fade" effectDuration="fast">
                 <p:tab title="Personal Information" transient="true">
                     <p:panel header="Personal info:Part 1" style="width: 80%;margin-left: auto;margin-right: auto;display: block;">
                         <h:panelGrid columns="2" cellpadding="20" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10">
                                 <p:outputLabel for="firstnamepersian" value="Firstname(Persian):" />
-                                <p:inputText id="firstnamepersian" value="#{addCustomer.personal.don361name}"  label="Firstname(Persian)">
+                                <p:inputText id="firstnamepersian" value="#{addCustomer.personal.don361name}"  label="Firstname(Persian)" >
                                 </p:inputText>
                                 <p:outputLabel for="firstname" value="Firstname:" />
-                                <p:inputText id="firstname" value="#{addCustomer.personal.don361enName}"  label="Firstname">
+                                <p:inputText id="firstname" value="#{addCustomer.personal.don361enName}"  label="Firstname" required="true" requiredMessage="Please Enter First Name !">
                                 </p:inputText>
                                 <p:outputLabel for="lastnamepersian" value="Lasttname(Persian):" />
                                 <p:inputText id="lastnamepersian" value="#{addCustomer.personal.don361familyName}"  label="Lastname(Persian)">
                                 </p:inputText>
                                 <p:outputLabel for="lastname" value="Lastname:" />
-                                <p:inputText id="lastname" value="#{addCustomer.personal.don361enFamily}"  label="Lastname">
+                                <p:inputText id="lastname" value="#{addCustomer.personal.don361enFamily}"  label="Lastname" required="true" requiredMessage="Please Enter Last Name !">
                                 </p:inputText>
                                 <p:outputLabel for="sex" value="Gender:" />
                                 <p:selectOneMenu id="sex" value="#{addCustomer.rashtiSex}">
@@ -51,7 +51,8 @@
                                     <f:convertDateTime pattern="yyyy-MMM-dd"/>
                                 </p:calendar>
                                 <p:outputLabel for="melliCodenum" value="MelliCode Number:" />
-                                <p:inputText id="melliCodenum" value="#{addCustomer.personal.don361birthCerNo}"  label="melliCodeNum">
+                                <p:inputText id="melliCodenum" maxlength="10"  value="#{addCustomer.personal.don361birthCerNo}"  label="melliCodeNum">
+                                    <f:validateRegex for="melliCodenum" pattern="([0-9])?"/>
                                 </p:inputText>
                                 <p:outputLabel for="Passportnum" value="Passport Number:" />
                                 <p:inputText id="Passportnum" value="#{addCustomer.personal.don361passportNo}"  label="passportNum">
@@ -74,17 +75,46 @@
                         <h:panelGrid columns="2" cellpadding="20" style="margin-left: auto;margin-right: auto;display: block;" >
                             <h:panelGrid columns="2" cellpadding="10">
                                 <p:outputLabel for="email" value="Email:" />
-                                <p:inputText id="email" value="#{addCustomer.personal.don361personalMail}"  label="Email:">
+                                <p:inputText id="email" value="#{addCustomer.personal.don361personalMail}"  label="Email:" validatorMessage="Email is not Valid!">
+                                    <f:validateRegex pattern="([\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z])?" />                                
                                 </p:inputText>
                                 <p:outputLabel for="mobilenum" value="Mobile Number:" />
                                 <p:inputText  id="mobilenum" value="#{addCustomer.personal.don361mobileNumber}"  label="MobileNumber">
+                                    <f:validateRegex for="mobilenum" pattern="([0-9]+)?"/>
                                 </p:inputText>
                                 <p:outputLabel for="homeNumber" value="Home Number:" />
                                 <p:inputText id="homeNumber" value="#{addCustomer.personal.don361homeTel}"  label="homeNumber">
+                                    <f:validateRegex for="homeNumber" pattern="([0-9]+)?"/>
                                 </p:inputText>
                                 <p:outputLabel for="homefax" value="Home Fax:" />
                                 <p:inputText id="homefax" value="#{addCustomer.personal.don361homeFax}"  label="homeFax">
                                 </p:inputText>
+                                <p:outputLabel for="homepostalcode" value="Postal Code(Home):" />
+                                <p:inputText id="homepostalcode" value="#{addCustomer.personal.don361postalCode}"  label="postal code(home)">
+                                </p:inputText>
+                                <p:outputLabel value="Home Address(Persian):" />
+                                <p:inputTextarea rows="2" id="homeaddresspersian" value="#{addCustomer.personal.don361homeAddress}"   cols="20" />
+
+                                <p:outputLabel for="hobbies" value="Hobbies:" />
+                                <p:inputTextarea rows="2" id="hobbies" value="#{addCustomer.personal.don361hobbies}"   cols="20" />
+                                <p:outputLabel for="comments" value="Comments:" />
+                                <p:inputTextarea rows="2" id="comments" value="#{addCustomer.personal.don361description}" cols="20" />
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10">
+
+                                  <p:outputLabel  value="Photo Scan:" />
+                                <p:fileUpload fileUploadListener="#{addCustomer.handleFileUpload3}" value="#{addCustomer.pfile3}"  dragDropSupport="true" rendered="#{!addCustomer.photoScanAvailable}"   mode="advanced"  
+                                              sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  update="@form:tview"/>
+                                <p:panel  rendered="#{addCustomer.photoScanAvailable}">
+                                    <a href="#{request.contextPath}/DisplayImage?type=ps&amp;pid=#{addCustomer.customer.don360id}&amp;" data-fresco-caption="#{addCustomer.customer.don360name}" class="fresco" >
+                                        Show Photo
+                                    </a>
+                                    <p:commandLink actionListener="#{addCustomer.removeImage3()}" style="float: right;" update="@form:tview">
+                                        <span class="ui-icon ui-icon-close">Delete</span>
+                                    </p:commandLink>
+                                </p:panel>
+
                                 <p:outputLabel value="Passport Scan:" />
                                 <p:fileUpload fileUploadListener="#{addCustomer.handleFileUpload1}" value="#{addCustomer.pfile}"  dragDropSupport="true" rendered="#{!addCustomer.passScanAvailable}"   mode="advanced"  
                                               sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  update="@form:tview"/>
@@ -107,30 +137,6 @@
                                     </p:commandLink>
                                 </p:panel>
 
-                                <p:outputLabel  value="Photo Scan:" />
-                                <p:fileUpload fileUploadListener="#{addCustomer.handleFileUpload3}" value="#{addCustomer.pfile3}"  dragDropSupport="true" rendered="#{!addCustomer.photoScanAvailable}"   mode="advanced"  
-                                              sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  update="@form:tview"/>
-                                <p:panel  rendered="#{addCustomer.photoScanAvailable}">
-                                    <a href="#{request.contextPath}/DisplayImage?type=ps&amp;pid=#{addCustomer.customer.don360id}&amp;" data-fresco-caption="#{addCustomer.customer.don360name}" class="fresco" >
-                                        Show Photo
-                                    </a>
-                                    <p:commandLink actionListener="#{addCustomer.removeImage3()}" style="float: right;" update="@form:tview">
-                                        <span class="ui-icon ui-icon-close">Delete</span>
-                                    </p:commandLink>
-                                </p:panel>
-
-                            </h:panelGrid>
-                            <h:panelGrid columns="2" cellpadding="10">
-                                <p:outputLabel for="homepostalcode" value="Postal Code(Home):" />
-                                <p:inputText id="homepostalcode" value="#{addCustomer.personal.don361postalCode}"  label="postal code(home)">
-                                </p:inputText>
-                                <p:outputLabel value="Home Address(Persian):" />
-                                <p:inputTextarea rows="2" id="homeaddresspersian" value="#{addCustomer.personal.don361homeAddress}"   cols="20" />
-
-                                <p:outputLabel for="hobbies" value="Hobbies:" />
-                                <p:inputTextarea rows="2" id="hobbies" value="#{addCustomer.personal.don361hobbies}"   cols="20" />
-                                <p:outputLabel for="comments" value="Comments:" />
-                                <p:inputTextarea rows="2" id="comments" value="#{addCustomer.personal.don361description}" cols="20" />
                             </h:panelGrid>
                         </h:panelGrid>
 
@@ -264,8 +270,8 @@
                                     <f:facet name="output"><h:outputText value="#{idaq.don364firstPayment}" /></f:facet>
                                     <f:facet name="input">
                                         <p:selectOneMenu value="#{idaq.don364firstPayment}" style="width: 100%;">
-                                            <f:selectItem itemLabel="Not paid" itemValue="0" />
-                                            <f:selectItem itemLabel="Paid" itemValue="1"/>
+                                            <f:selectItem itemLabel="Not paid" itemValue="Not paid" />
+                                            <f:selectItem itemLabel="Paid" itemValue="Paid"/>
                                         </p:selectOneMenu>
                                     </f:facet>
                                 </p:cellEditor>
@@ -275,9 +281,9 @@
                                     <f:facet name="output"><h:outputText value="#{idaq.don364secondPayment}" /></f:facet>
                                     <f:facet name="input">
                                         <p:selectOneMenu value="#{idaq.don364secondPayment}" style="width: 100%;">
-                                            <f:selectItem itemLabel="Not paid"  itemValue="0" />
+                                            <f:selectItem itemLabel="Not paid"  itemValue="Not paid" />
 
-                                            <f:selectItem itemLabel="Paid"  itemValue="1"/>
+                                            <f:selectItem itemLabel="Paid"  itemValue="Paid"/>
                                         </p:selectOneMenu></f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -315,14 +321,16 @@
                                 <p:inputTextarea rows="6" id="bussinessAddress" value="#{addCustomer.bussiness.don368bussAddress}" cols="33" />
 
                                 <p:outputLabel value="Office Tel:" />
-                                <p:inputText id="officeTel" value="#{addCustomer.bussiness.don368officeTel}"></p:inputText>
+                                <p:inputText id="officeTel" value="#{addCustomer.bussiness.don368officeTel}">
+                                    <f:validateRegex for="officeTel" pattern="([0-9])?" />
+                                    <p:clientValidator event="keyup"/>
+                                </p:inputText>
                                 <p:outputLabel value="Office Fax:" />
                                 <p:inputText id="officeFax" value="#{addCustomer.bussiness.don368fax}"></p:inputText>
                             </h:panelGrid>
                             <h:panelGrid columns="2" cellpadding="10" >
                                 <p:outputLabel value="BusinessField:" />
                                 <p:selectOneMenu id="bussinessField" value="#{addCustomer.bussiness.don368bussField}">
-
                                     <f:selectItem itemLabel="Food Industery" itemValue="Food Industery" />
                                     <f:selectItem itemLabel="Fabric Industery" itemValue="Fabric Industery" />
                                     <f:selectItem itemLabel="Civil Engineering" itemValue="Civil Engineering" />
@@ -338,7 +346,9 @@
                                 <p:outputLabel value="Secretary Name:" />
                                 <p:inputText id="secretaryName" value="#{addCustomer.bussiness.don368secretaryName}"></p:inputText>
                                 <p:outputLabel value="Secretary Tel:" />
-                                <p:inputText id="secretaryTel" value="#{addCustomer.bussiness.don368secretaryTel}"></p:inputText>
+                                <p:inputText id="secretaryTel" value="#{addCustomer.bussiness.don368secretaryTel}">
+                                    <f:validateRegex pattern="([0-9])?" />
+                                </p:inputText>
                                 <p:outputLabel value="Business Description:" />
                                 <p:inputText id="bussinessDescp" value="#{addCustomer.bussiness.don368bussDescreption}"></p:inputText>
                             </h:panelGrid>
@@ -349,7 +359,6 @@
                             <h:panelGrid columns="2" cellpadding="10" >
                                 <p:outputLabel value="Financial Status:" />
                                 <p:selectOneMenu id="financialStatus" value="#{addCustomer.customer.don360customerEcoRate}">
-
                                     <f:selectItem itemLabel="1" itemValue="1" />
                                     <f:selectItem itemLabel="2" itemValue="2" />
                                     <f:selectItem itemLabel="3" itemValue="3" />
@@ -372,8 +381,8 @@
                 SAVING<br />
                 <p:graphicImage value="/resources/images/ajaxloadingbar.gif"/>
             </p:blockUI>
-            <p:commandButton id="save" value="Submit" style="float: right;" action="#{addCustomer.commitCustomer()}" ajax="false" type="submit"/>
-            <p:commandButton value="Cancel" style="float: right;" action="#{addCustomer.cancelCustomer()}" ajax="false" type="submit"/>
+            <p:commandButton id="save" value="Submit" style="float: right;" action="#{addCustomer.commitCustomer()}" update="growl" validateClient="true" ajax="false" type="submit"/>
+            <p:commandButton value="Cancel" style="float: right;" action="#{addCustomer.cancelCustomer()}" ajax="false"   type="cancel" immediate="true"/>
 
         </h:form>
 

@@ -5,7 +5,7 @@
 <Workspace>
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{F7747E9A-5D04-4A25-BF18-FB58DB3A3500}" Name="Don Kyello" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="Don Kyello.cdm"/>
-		<Model Expanded="Yes" ID="{AB0A033B-2BD8-447C-9203-48F56E29C300}" Name="Don Kyello" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="Don Kyello.pdm"/>
+		<Model Expanded="Yes" ID="{AB0A033B-2BD8-447C-9203-48F56E29C300}" Name="Don Kyello" Selected="Yes" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="/Don Kyello/model/model-design/Don Kyello.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
