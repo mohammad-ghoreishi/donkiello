@@ -14,8 +14,6 @@ import com.donkiello.utility.JndiUtils;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -53,9 +51,7 @@ public class AuthenticationHandler implements Serializable {
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
             }
-
         }
-
     }
 
     public void checkSession() {
@@ -91,7 +87,7 @@ public class AuthenticationHandler implements Serializable {
 
                         System.out.println(e.getMessage());
                     } finally {
-                        System.out.println(name);
+//                        System.out.println(name);
                         return "firstPage?faces-redirect=true";
 
                     }
@@ -103,7 +99,6 @@ public class AuthenticationHandler implements Serializable {
             System.out.println(e.getMessage() + " " + e.getCause());
             return "";
         }
-//        return "";
     }
 
     public String logout() {

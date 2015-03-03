@@ -42,16 +42,11 @@ public class CustomerManager implements Serializable {
 
     public CustomerManager() {
 
-//        filteredCustomers = new ArrayList<DonCustomer>();
-        System.out.println("first in in Customer manager");
         customerService = getCustomerService();
-//        System.out.println("after get service");
         customerList = customerService.getAll();
-        //System.out.println("after get all");
         programms = new String[2];
         programms[0] = "MBA";
         programms[1] = "DBA";
-//        System.out.println("after constructor");
     }
 
     public String removeRow(DonCustomer selectedCustomer) {
@@ -59,13 +54,8 @@ public class CustomerManager implements Serializable {
         DonCustomer selectedCustomer1 = null;
 
         if (selectedCustomer != null) {
-//        selectedCustomer.setDeleted(BaseEntity.DELETE_NO);
-//        customerService.update(selectedCustomer);
-//            System.out.println("before remove");
             selectedCustomer1 = customerService.searchById(selectedCustomer.getDon360id());
             String temp = selectedCustomer.getDon360name();
-//            customerService.remove(selectedCustomer);
-//            System.out.println(" after remove");
             
             //cascading remove
             if(selectedCustomer1.getDonPersonalList()!=null)
@@ -85,7 +75,6 @@ public class CustomerManager implements Serializable {
             
             JSFUtils.addFacesInfoMessage(temp + " removed from customers!");
         } else {
-            System.out.println("null is selected");
         }
         return "";  
     }
@@ -97,7 +86,6 @@ public class CustomerManager implements Serializable {
 		HSSFCellStyle cellStyle = wb.createCellStyle();  
 		cellStyle.setFillForegroundColor(HSSFColor.ORANGE.index);
 		cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-
                 for(int i=0; i < header.getPhysicalNumberOfCells();i++) {
 			HSSFCell cell = header.getCell(i);
 			cell.setCellStyle(cellStyle);
@@ -105,8 +93,6 @@ public class CustomerManager implements Serializable {
 	}
 
     public String viewCustomer(DonCustomer selectedCustomer) {
-        System.out.println("view Customer");
-//        JSFUtils.flash().put("selectedCustomer", selectedCustomer);
         
         JSFUtils.storeOnSession("selectedCustomer", selectedCustomer);
         
