@@ -39,6 +39,10 @@
                 <p:column  filterBy="#{customer.don360name}" headerText="Name" sortBy="#{customer.don360name}"  filterMatchMode="contains">
                     <h:outputText value="#{customer.don360name}" />
                 </p:column>
+                
+                <p:column  filterBy="#{customer.donPersonalList.get(0).don361personalMail}" headerText="E-Mail"  styleClass="not-show-at-start" filterMatchMode="contains">
+                    <h:outputText value="#{customer.donPersonalList.get(0).don361personalMail}" />
+                </p:column>
 
                 <p:column filterBy="#{customer.don360mobileno}" headerText="Tell(Mobile)"  filterMatchMode="contains">
                     <h:outputText value="#{customer.don360mobileno}" />
@@ -48,11 +52,6 @@
 
                     <h:outputText value="#{customer.don360customerRate}" />
                 </p:column>
-
-<!--                <p:column filterBy="#{customer.don360customerEcoRate}" headerText="Payment Status" filterMatchMode="contains">
-                    <h:outputText value="#{customer.don360customerEcoRate}" />
-                </p:column>-->
-
                 <p:column filterBy="#{customer.don360programs}" headerText="Programs" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360programs}" />
                 </p:column>

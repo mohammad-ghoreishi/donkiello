@@ -19,3 +19,7 @@ and open the template in the editor.
     font-size: 12px;
     
 }
+
+.ui-datatable , .ui-column-filter{
+    width: 100% !important;
+}

@@ -80,11 +80,9 @@
                                 </p:inputText>
                                 <p:outputLabel for="mobilenum" value="Mobile Number:" />
                                 <p:inputText  id="mobilenum" value="#{addCustomer.personal.don361mobileNumber}"  label="MobileNumber">
-                                    <f:validateRegex for="mobilenum" pattern="([0-9]+)?"/>
                                 </p:inputText>
                                 <p:outputLabel for="homeNumber" value="Home Number:" />
                                 <p:inputText id="homeNumber" value="#{addCustomer.personal.don361homeTel}"  label="homeNumber">
-                                    <f:validateRegex for="homeNumber" pattern="([0-9]+)?"/>
                                 </p:inputText>
                                 <p:outputLabel for="homefax" value="Home Fax:" />
                                 <p:inputText id="homefax" value="#{addCustomer.personal.don361homeFax}"  label="homeFax">
@@ -103,7 +101,7 @@
                             </h:panelGrid>
                             <h:panelGrid columns="2" cellpadding="10">
 
-                                  <p:outputLabel  value="Photo Scan:" />
+                                <p:outputLabel  value="Photo Scan:" />
                                 <p:fileUpload fileUploadListener="#{addCustomer.handleFileUpload3}" value="#{addCustomer.pfile3}"  dragDropSupport="true" rendered="#{!addCustomer.photoScanAvailable}"   mode="advanced"  
                                               sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"  update="@form:tview"/>
                                 <p:panel  rendered="#{addCustomer.photoScanAvailable}">
@@ -226,7 +224,10 @@
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{idaq.don364programName}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:selectOneMenu value="#{idaq.don364programName}" style="width: 100%;" >
+                                        <p:selectOneMenu value="#{idaq.don364programName}"  style="width: 100%;" >
+                                            <f:selectItem itemLabel="JPC1" itemValue="JPC1" />
+                                            <f:selectItem itemLabel="JPC2" itemValue="JPC2" />
+                                            <f:selectItem itemLabel="JPC3" itemValue="JPC3" />
                                             <f:selectItem itemLabel="W1" itemValue="W1" />
                                             <f:selectItem itemLabel="W2" itemValue="W2" />
                                             <f:selectItem itemLabel="W3" itemValue="W3" />
@@ -243,9 +244,7 @@
                                             <f:selectItem itemLabel="K7" itemValue="K7" />
                                             <f:selectItem itemLabel="MF1" itemValue="MF1" />
                                             <f:selectItem itemLabel="MF2" itemValue="MF2" />
-                                            <f:selectItem itemLabel="JPC1" itemValue="JPC1" />
-                                            <f:selectItem itemLabel="JPC2" itemValue="JPC2" />
-                                            <f:selectItem itemLabel="JPC3" itemValue="JPC3" />
+                                            
 
                                         </p:selectOneMenu></f:facet>
                                 </p:cellEditor>
@@ -288,6 +287,17 @@
                                 </p:cellEditor>
                             </p:column>
 
+                            <p:column headerText="Studying Status">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{idaq.don364isStudying}" /></f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{idaq.don364isStudying}" style="width: 100%;">
+                                            <f:selectItem itemLabel="Student"  itemValue="Student" />
+                                            <f:selectItem itemLabel="Graduate"  itemValue="Graduate"/>
+                                        </p:selectOneMenu></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
                             <p:column headerText="other Payment">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{idaq.don364paymentDesc}" /></f:facet>
@@ -322,7 +332,6 @@
 
                                 <p:outputLabel value="Office Tel:" />
                                 <p:inputText id="officeTel" value="#{addCustomer.bussiness.don368officeTel}">
-                                    <f:validateRegex for="officeTel" pattern="([0-9])?" />
                                     <p:clientValidator event="keyup"/>
                                 </p:inputText>
                                 <p:outputLabel value="Office Fax:" />
@@ -330,11 +339,7 @@
                             </h:panelGrid>
                             <h:panelGrid columns="2" cellpadding="10" >
                                 <p:outputLabel value="BusinessField:" />
-                                <p:selectOneMenu id="bussinessField" value="#{addCustomer.bussiness.don368bussField}">
-                                    <f:selectItem itemLabel="Food Industery" itemValue="Food Industery" />
-                                    <f:selectItem itemLabel="Fabric Industery" itemValue="Fabric Industery" />
-                                    <f:selectItem itemLabel="Civil Engineering" itemValue="Civil Engineering" />
-                                </p:selectOneMenu> 
+                                <p:inputText id="bussinessField" value="#{addCustomer.bussiness.don368bussField}"></p:inputText>
                                 <p:outputLabel value="Website:" />
                                 <p:inputText id="website" value="#{addCustomer.bussiness.don368bussWebsite}"></p:inputText>
                                 <p:outputLabel value="Business Email:" />
