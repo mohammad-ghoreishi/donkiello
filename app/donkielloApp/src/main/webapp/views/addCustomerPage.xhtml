@@ -51,8 +51,7 @@
                                     <f:convertDateTime pattern="yyyy-MMM-dd"/>
                                 </p:calendar>
                                 <p:outputLabel for="melliCodenum" value="MelliCode Number:" />
-                                <p:inputText id="melliCodenum" maxlength="10"  value="#{addCustomer.personal.don361birthCerNo}"  label="melliCodeNum">
-                                    <f:validateRegex for="melliCodenum" pattern="([0-9])?"/>
+                                <p:inputText id="melliCodenum" maxlength="10"  value="#{addCustomer.personal.don361birthCerNo}" >
                                 </p:inputText>
                                 <p:outputLabel for="Passportnum" value="Passport Number:" />
                                 <p:inputText id="Passportnum" value="#{addCustomer.personal.don361passportNo}"  label="passportNum">
@@ -352,7 +351,7 @@
                                 <p:inputText id="secretaryName" value="#{addCustomer.bussiness.don368secretaryName}"></p:inputText>
                                 <p:outputLabel value="Secretary Tel:" />
                                 <p:inputText id="secretaryTel" value="#{addCustomer.bussiness.don368secretaryTel}">
-                                    <f:validateRegex pattern="([0-9])?" />
+                                   
                                 </p:inputText>
                                 <p:outputLabel value="Business Description:" />
                                 <p:inputText id="bussinessDescp" value="#{addCustomer.bussiness.don368bussDescreption}"></p:inputText>

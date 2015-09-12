@@ -40,7 +40,7 @@
                     <h:outputText value="#{customer.don360name}" />
                 </p:column>
                 
-                <p:column  filterBy="#{customer.donPersonalList.get(0).don361personalMail}" headerText="E-Mail"  styleClass="not-show-at-start" filterMatchMode="contains">
+                <p:column  filterBy="#{customer.donPersonalList.get(0).don361personalMail}" headerText="E-Mail"  width="15%" styleClass="not-show-at-start" filterMatchMode="contains">
                     <h:outputText value="#{customer.donPersonalList.get(0).don361personalMail}" />
                 </p:column>
 
@@ -48,31 +48,31 @@
                     <h:outputText value="#{customer.don360mobileno}" />
                 </p:column>
 
-                <p:column filterBy="#{customer.don360customerRate}" headerText="Class"  sortBy="#{customer.don360customerRate}" filterMatchMode="contains">
+                <p:column filterBy="#{customer.don360customerRate}" headerText="Class"  width="6%" sortBy="#{customer.don360customerRate}" filterMatchMode="contains">
 
                     <h:outputText value="#{customer.don360customerRate}" />
                 </p:column>
-                <p:column filterBy="#{customer.don360programs}" headerText="Programs" filterMatchMode="contains">
+                <p:column filterBy="#{customer.don360programs}" headerText="Programs" width="6%" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360programs}" />
                 </p:column>
                 <p:column filterBy="#{customer.don360bussinessNames}" headerText="Business Name" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360bussinessNames}" />
                 </p:column>
-                <p:column  filterBy="#{customer.donPersonalList.get(0).don361description}" headerText="Comments" styleClass="not-show-at-start" filterMatchMode="contains">
+<!--                <p:column  filterBy="#{customer.donPersonalList.get(0).don361description}" headerText="Comments" styleClass="not-show-at-start" filterMatchMode="contains">
                     <h:outputText value="#{customer.donPersonalList.get(0).don361description}" />
-                </p:column>
-                <p:column  filterBy="#{customer.donPersonalList.get(0).don361homeAddress}" headerText="Address" filterMatchMode="contains">
+                </p:column>-->
+                <p:column  filterBy="#{customer.donPersonalList.get(0).don361homeAddress}" width="10%" headerText="Address" filterMatchMode="contains">
                     <h:outputText value="#{customer.donPersonalList.get(0).don361homeAddress}" />
                 </p:column>
-                <p:column filterBy="#{customer.donBussinessList.get(0).don368tag}" headerText="Business Tags" filterMatchMode="contains">
+<!--                <p:column filterBy="#{customer.donBussinessList.get(0).don368tag}" headerText="Business Tags" filterMatchMode="contains">
                     <h:outputText value="#{customer.donBussinessList.get(0).don368tag}" />
-                </p:column>
-                <p:column filterBy="#{customer.don360customerEcoRate}" headerText="Financial status" sortBy="#{customer.don360customerEcoRate}" filterMatchMode="contains">
+                </p:column>-->
+<!--                <p:column filterBy="#{customer.don360customerEcoRate}" headerText="Financial status" sortBy="#{customer.don360customerEcoRate}" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360customerEcoRate}" />
                 </p:column>
                 <p:column filterBy="#{customer.don360paymentStatus}" headerText="Payment status" sortBy="#{customer.don360paymentStatus}" filterMatchMode="contains">
                     <h:outputText value="#{customer.don360paymentStatus}" />
-                </p:column>
+                </p:column>-->
                 <p:column filterBy="#{customer.donBussinessList.get(0).don368bussField}" headerText="Business Fields" filterMatchMode="contains">
                     <h:outputText value="#{customer.donBussinessList.get(0).don368bussField}" />
                 </p:column>

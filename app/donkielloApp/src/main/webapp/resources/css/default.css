@@ -23,3 +23,7 @@ and open the template in the editor.
 .ui-datatable , .ui-column-filter{
     width: 100% !important;
 }
+
+.ui-datatable table{
+    text-align: center !important;
+}
