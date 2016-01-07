@@ -128,7 +128,7 @@ public class AddCustomer implements Serializable {
                     tempDate = customer.getDonPersonalList().get(0).getDon361birthday().toString();
                 }
 
-                if (customer.getDonPersonalList().get(0).getDon361gender() == BaseEntity.DELETE_YES) {
+                if (customer.getDonPersonalList().get(0).getDon361gender().equals(BaseEntity.DELETE_YES) ) {
                     rashtiSex = "Male";
                 } else {
                     rashtiSex = "Female";
@@ -241,7 +241,7 @@ public class AddCustomer implements Serializable {
 
         if (customer.getDon360image() == null) {
         }
-        if (rashtiSex.equalsIgnoreCase("male")) {
+        if (rashtiSex.equalsIgnoreCase("Male")) {
             personal.setDon361gender(BaseEntity.DELETE_YES);
         } else {
             personal.setDon361gender(BaseEntity.DELETE_NO);

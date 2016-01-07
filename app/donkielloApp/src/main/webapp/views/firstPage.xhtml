@@ -20,7 +20,7 @@
             <p:dataTable rowStyleClass="rowClass" style="font-size: 13px; font-style: normal;" id="customerTable" var="customer"  value="#{customerManager.customerList}" widgetVar="customersTable"
                          emptyMessage="No Customers found with given criteria" filteredValue="#{customerManager.filteredCustomers}" paginator="true" rows="10"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} "
-                         rowsPerPageTemplate="5,10,15" sortMode="multiple"  draggableColumns="true" selectionMode="single" rowKey="#{customer.don360id}" selection="#{customerManager.selectedCustomer}" >
+                         rowsPerPageTemplate="5,10,15" sortMode="multiple"  draggableColumns="true"  rowKey="#{customer.don360id}" >
 
                 <f:facet name="header">
                     <p:commandButton style="float: left" value="Add" icon="ui-icon-plus" action="#{customerManager.addCustomer()}" type="submit" ajax="false"/>
@@ -61,7 +61,7 @@
 <!--                <p:column  filterBy="#{customer.donPersonalList.get(0).don361description}" headerText="Comments" styleClass="not-show-at-start" filterMatchMode="contains">
                     <h:outputText value="#{customer.donPersonalList.get(0).don361description}" />
                 </p:column>-->
-                <p:column  filterBy="#{customer.donPersonalList.get(0).don361homeAddress}" width="10%" headerText="Address" filterMatchMode="contains">
+                <p:column  filterBy="#{customer.donPersonalList.get(0).don361homeAddress}" width="10%"  rowspan="1" headerText="Address" filterMatchMode="contains">
                     <h:outputText value="#{customer.donPersonalList.get(0).don361homeAddress}" />
                 </p:column>
 <!--                <p:column filterBy="#{customer.donBussinessList.get(0).don368tag}" headerText="Business Tags" filterMatchMode="contains">
@@ -78,15 +78,16 @@
                 </p:column>
 
                 <p:column width="40" style="max-width: 40px;" exportable="false" >
-                    <p:commandButton  icon="ui-icon-close" type="button" title="Delete">
-                        <p:confirm/>
-                    </p:commandButton>
                     <p:commandButton ajax="false" action="#{customerManager.viewCustomer(customer)}" icon="ui-icon-search" title="View"/>
-                    <p:confirmDialog global="true" header="Confirmation" message="Are you sure?" showEffect="fade" hideEffect="explode">
-                        <p:commandButton value="Yes" actionListener="#{customerManager.removeRow(customer)}"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  update="@form"/>
+                    <p:commandButton  icon="ui-icon-close" actionListener="#{customerManager.removeRow(customer)}" update="@form" title="Delete">
+                        <p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    
+                    <p:confirmDialog global="true"  showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     </p:confirmDialog>
-
+                    
                 </p:column>
 
             </p:dataTable>

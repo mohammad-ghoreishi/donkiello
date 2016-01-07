@@ -50,7 +50,7 @@ public class CustomerManager implements Serializable {
     }
 
     public String removeRow(DonCustomer selectedCustomer) {
-        
+        System.out.println("deleted");
         DonCustomer selectedCustomer1 = null;
 
         if (selectedCustomer != null) {
